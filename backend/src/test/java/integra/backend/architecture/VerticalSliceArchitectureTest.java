@@ -1,4 +1,4 @@
-package cloudflight.integra.backend.architecture;
+package integra.backend.architecture;
 
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag("architecture")
 class VerticalSliceArchitectureTest {
 
-    private static final String BASE_PACKAGE = "cloudflight.integra.backend";
+    private static final String BASE_PACKAGE = "integra.backend";
 
     @Test
     void controllersShouldOnlyDependOnServices() {

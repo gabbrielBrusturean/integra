@@ -1,6 +1,6 @@
-package cloudflight.integra.backend.coffeemug;
+package integra.backend.coffeemug;
 
-import cloudflight.integra.backend.coffeemug.model.CoffeeMug;
+import integra.backend.coffeemug.model.CoffeeMug;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;

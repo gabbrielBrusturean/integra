@@ -1,7 +1,7 @@
-package cloudflight.integra.backend.coffeemug;
+package integra.backend.coffeemug;
 
-import cloudflight.integra.backend.coffeemug.model.CoffeeMug;
-import cloudflight.integra.backend.coffeemug.model.CoffeeMugDto;
+import integra.backend.coffeemug.model.CoffeeMug;
+import integra.backend.coffeemug.model.CoffeeMugDto;
 import org.springframework.stereotype.Component;
 
 @Component

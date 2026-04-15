@@ -1,4 +1,4 @@
-package cloudflight.integra.backend.coffeemug.model;
+package integra.backend.coffeemug.model;
 
 public class CoffeeMug {
     private Long id;

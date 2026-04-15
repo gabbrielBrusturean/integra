@@ -1,4 +1,4 @@
-package cloudflight.integra.backend.controller;
+package integra.backend.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
