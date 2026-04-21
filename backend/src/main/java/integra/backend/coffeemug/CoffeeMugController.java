@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/coffeemugs")
+@RequestMapping("/coffeemugs")
 public class CoffeeMugController {
     private final CoffeeMugService service;
     private final CoffeeMugMapper mapper;
@@ -29,15 +29,5 @@ public class CoffeeMugController {
     @PostMapping
     public CoffeeMugDto create(@RequestBody CoffeeMugDto dto) {
         return mapper.toDto(service.create(mapper.toEntity(dto)));
-    }
-
-    @PutMapping("/{id}")
-    public CoffeeMugDto update(@PathVariable Long id, @RequestBody CoffeeMugDto dto) {
-        return service.update(id, mapper.toEntity(dto)).map(mapper::toDto).orElse(null);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
     }
 }

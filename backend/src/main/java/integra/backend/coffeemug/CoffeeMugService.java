@@ -24,20 +24,4 @@ public class CoffeeMugService {
     public CoffeeMug create(CoffeeMug mug) {
         return repository.save(mug);
     }
-
-    public Optional<CoffeeMug> update(Long id, CoffeeMug mug) {
-        if (repository.findById(id).isPresent()) {
-            mug.setId(id);
-            return Optional.of(repository.save(mug));
-        }
-        return Optional.empty();
-    }
-
-    public boolean delete(Long id) {
-        if (repository.findById(id).isPresent()) {
-            repository.deleteById(id);
-            return true;
-        }
-        return false;
-    }
 }
