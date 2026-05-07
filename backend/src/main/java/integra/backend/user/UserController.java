@@ -3,6 +3,7 @@ package integra.backend.user;
 import integra.backend.user.model.UserDto;
 import java.util.List;
 import java.util.stream.Collectors;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,12 +31,12 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> create(@RequestBody UserDto dto) {
+    public ResponseEntity<UserDto> create(@Valid @RequestBody UserDto dto) {
         return ResponseEntity.status(201).body(mapper.toDto(service.create(mapper.toEntity(dto))));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> update(@PathVariable Long id, @RequestBody UserDto dto) {
+    public ResponseEntity<UserDto> update(@PathVariable Long id, @Valid @RequestBody UserDto dto) {
         return service.update(id, mapper.toEntity(dto)).map(u -> ResponseEntity.ok(mapper.toDto(u))).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
