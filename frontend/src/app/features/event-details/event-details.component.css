@@ -1,0 +1,171 @@
+.full-page-detail {
+  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+  color: #333;
+  line-height: 1.6;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+.hero-section {
+  background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+  color: white;
+  padding: 80px 0;
+  width: 100%;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  margin: 10px 0;
+  font-weight: 800;
+}
+
+.back-link {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: inline-block;
+  margin-bottom: 20px;
+  transition: color 0.2s;
+}
+
+.back-link:hover {
+  color: white;
+}
+
+.category-tag {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.content-body {
+  padding: 60px 0;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 60px;
+}
+
+.main-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #1b5e20;
+}
+
+.description {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+.rules-box {
+  background-color: #f1f8e9;
+  border-left: 4px solid #81c784;
+  padding: 20px;
+  margin-top: 40px;
+}
+
+.rules-box h4 {
+  margin-top: 0;
+  color: #388e3c;
+}
+
+.logistics-card {
+  position: sticky;
+  top: 40px;
+  align-self: start;
+}
+
+.logistics-item {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.icon {
+  font-size: 1.5rem;
+}
+
+.sub-text {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.divider {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 25px 0;
+}
+
+.participation-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.status-indicator {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.status-indicator.full {
+  color: #d32f2f;
+}
+
+.primary-btn {
+  width: 100%;
+  background-color: #2e7d32;
+  color: white;
+  padding: 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition:
+    transform 0.1s,
+    background-color 0.2s;
+}
+
+.primary-btn:hover:not(:disabled) {
+  background-color: #1b5e20;
+  transform: translateY(-2px);
+}
+
+.primary-btn:disabled {
+  background-color: #bdbdbd;
+  cursor: not-allowed;
+}
+
+@media (max-width: 850px) {
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+}

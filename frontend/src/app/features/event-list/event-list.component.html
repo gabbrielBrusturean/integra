@@ -1,0 +1,24 @@
+
+<div class="list-container">
+  <header class="list-header">
+    <h1>Upcoming Volunteering Events</h1>
+    <p>Discover opportunities to contribute to a specific cause.</p>
+  </header>
+
+  <div class="grid">
+    @for (event of events; track event.id) {
+      <div class="event-summary-card">
+        <span class="category-badge" *ngIf="event.category">{{ event.category }}</span>
+        <h3>{{ event.title }}</h3>
+
+        <div class="quick-info">
+          <p>📍 {{ event.location }}</p>
+          <p>📅 {{ event.startAt | date: 'shortDate' }}</p>
+        </div>
+
+        <a [routerLink]="['/detailed-event', event.id]" class="view-btn"> See Details </a>
+      </div>
+    }
+  </div>
+</div>
+
