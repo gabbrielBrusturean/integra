@@ -1,8 +1,8 @@
 package integra.backend.event;
 
 import integra.backend.event.model.Event;
+import integra.backend.exception.ResourceNotFoundException;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,8 +17,9 @@ public class EventService {
         return eventRepository.findAll();
     }
 
-    public Optional<Event> getById(Long id) {
-        return eventRepository.findById(id);
+    public Event getById(Long id) {
+        return eventRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Event with id " + id + " was not found"));
     }
 
     public Event create(Event event) {
@@ -26,18 +27,18 @@ public class EventService {
     }
 
     public void deleteById(Long id) {
-        eventRepository.deleteById(id);
+        Event existing = getById(id);
+        eventRepository.delete(existing);
     }
 
-    public Optional<Event> update(Long id, Event updated) {
-        return eventRepository.findById(id).map(existing -> {
-            existing.setTitle(updated.getTitle());
-            existing.setDescription(updated.getDescription());
-            existing.setLocation(updated.getLocation());
-            existing.setStartAt(updated.getStartAt());
-            existing.setEndAt(updated.getEndAt());
-            existing.setMaxParticipants(updated.getMaxParticipants());
-            return eventRepository.save(existing);
-        });
+    public Event update(Long id, Event updated) {
+        Event existing = getById(id);
+        existing.setTitle(updated.getTitle());
+        existing.setDescription(updated.getDescription());
+        existing.setLocation(updated.getLocation());
+        existing.setStartAt(updated.getStartAt());
+        existing.setEndAt(updated.getEndAt());
+        existing.setMaxParticipants(updated.getMaxParticipants());
+        return eventRepository.save(existing);
     }
 }
