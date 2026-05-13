@@ -6,9 +6,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "events")
 public class Event {
     @Id
@@ -23,11 +26,10 @@ public class Event {
     private LocalDateTime createdAt;
     private Integer maxParticipants;
 
-    public Event() {
-    }
+    public Event() {}
 
-    public Event(Long id, String title, String description, String location, LocalDateTime startAt, LocalDateTime endAt,
-            LocalDateTime createdAt, Integer maxParticipants) {
+    public Event(Long id, String title, String description, String location, LocalDateTime startAt,
+            LocalDateTime endAt, LocalDateTime createdAt, Integer maxParticipants) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -38,67 +40,10 @@ public class Event {
         this.maxParticipants = maxParticipants;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public LocalDateTime getStartAt() {
-        return startAt;
-    }
-
-    public void setStartAt(LocalDateTime startAt) {
-        this.startAt = startAt;
-    }
-
-    public LocalDateTime getEndAt() {
-        return endAt;
-    }
-
-    public void setEndAt(LocalDateTime endAt) {
-        this.endAt = endAt;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Integer getMaxParticipants() {
-        return maxParticipants;
-    }
-
-    public void setMaxParticipants(Integer maxParticipants) {
-        this.maxParticipants = maxParticipants;
+    @PrePersist
+    void prePersist() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
     }
 }

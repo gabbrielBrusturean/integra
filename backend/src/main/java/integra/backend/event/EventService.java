@@ -36,7 +36,6 @@ public class EventService {
             existing.setLocation(updated.getLocation());
             existing.setStartAt(updated.getStartAt());
             existing.setEndAt(updated.getEndAt());
-            existing.setCreatedAt(updated.getCreatedAt());
             existing.setMaxParticipants(updated.getMaxParticipants());
             return eventRepository.save(existing);
         });

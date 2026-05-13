@@ -1,6 +1,7 @@
 package integra.backend.event;
 
-import integra.backend.event.model.EventDto;
+import integra.backend.event.model.EventResponseDto;
+import integra.backend.event.model.EventRequestDto;
 import org.springframework.http.ResponseEntity;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -20,27 +21,26 @@ public class EventController {
     }
 
     @GetMapping
-    public List<EventDto> getAll() {
+    public List<EventResponseDto> getAll() {
         return service.getAll().stream().map(mapper::toDto).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EventDto> getById(@PathVariable("id") Long id) {
-        return service.getById(id)
-                .map(e -> ResponseEntity.ok(mapper.toDto(e)))
+    public ResponseEntity<EventResponseDto> getById(@PathVariable("id") Long id) {
+        return service.getById(id).map(e -> ResponseEntity.ok(mapper.toDto(e)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EventDto create(@Valid @RequestBody EventDto dto) {
+    public EventResponseDto create(@Valid @RequestBody EventRequestDto dto) {
         return mapper.toDto(service.create(mapper.toEntity(dto)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EventDto> update(@PathVariable("id") Long id, @Valid @RequestBody EventDto dto) {
-        return service.update(id, mapper.toEntity(dto))
-                .map(e -> ResponseEntity.ok(mapper.toDto(e)))
+    public ResponseEntity<EventResponseDto> update(@PathVariable("id") Long id,
+            @Valid @RequestBody EventRequestDto dto) {
+        return service.update(id, mapper.toEntity(dto)).map(e -> ResponseEntity.ok(mapper.toDto(e)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
