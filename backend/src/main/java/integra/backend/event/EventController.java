@@ -26,27 +26,32 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EventResponseDto> getById(@PathVariable("id") Long id) {
+    public ResponseEntity<EventResponseDto> getById(@PathVariable("id")
+    Long id) {
         return service.getById(id).map(e -> ResponseEntity.ok(mapper.toDto(e)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EventResponseDto create(@Valid @RequestBody EventRequestDto dto) {
+    public EventResponseDto create(@Valid @RequestBody
+    EventRequestDto dto) {
         return mapper.toDto(service.create(mapper.toEntity(dto)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EventResponseDto> update(@PathVariable("id") Long id,
-            @Valid @RequestBody EventRequestDto dto) {
+    public ResponseEntity<EventResponseDto> update(@PathVariable("id")
+    Long id,
+            @Valid @RequestBody
+            EventRequestDto dto) {
         return service.update(id, mapper.toEntity(dto)).map(e -> ResponseEntity.ok(mapper.toDto(e)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") Long id) {
+    public void delete(@PathVariable("id")
+    Long id) {
         service.deleteById(id);
     }
 }
