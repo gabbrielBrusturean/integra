@@ -16,7 +16,7 @@
           <p>📅 {{ event.startAt | date: 'shortDate' }}</p>
         </div>
 
-        <a [routerLink]="['/detailed-event', event.id]" class="view-btn"> See Details </a>
+        <a [routerLink]="['/events', event.id]" class="view-btn"> See Details </a>
       </div>
     }
   </div>

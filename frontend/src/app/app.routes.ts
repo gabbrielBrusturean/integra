@@ -4,23 +4,18 @@ import { EventDetailsComponent } from './features/event-details/event-details.co
 
 export const routes: Routes = [
   {
-    path: 'list-of-events',
-    component: EventListComponent,
+    path: 'events', component: EventListComponent,
   },
 
   {
-    path: 'detailed-event/:id',
-    component: EventDetailsComponent,
+    path: 'events/:id', component: EventDetailsComponent,
   },
 
   {
-    path: '',
-    redirectTo: '/list-of-events',
-    pathMatch: 'full',
+    path: '', redirectTo: '/events', pathMatch: 'full',
   },
 
   {
-    path: '**',
-    redirectTo: '/list-of-events',
+    path: '**', redirectTo: '/events'
   },
 ];
