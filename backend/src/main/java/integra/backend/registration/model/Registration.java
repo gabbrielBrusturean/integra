@@ -27,9 +27,12 @@ public class Registration {
     private LocalDateTime updatedAt;
 
     @PrePersist
-    void initializeTimestamps() {
+    void initialize() {
         this.registeredAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+        if (registeredAt == null) {
+            registeredAt = LocalDateTime.now();
+        }
     }
 
     @PreUpdate
@@ -40,13 +43,6 @@ public class Registration {
     private String status = "PENDING";
 
     public Registration() {}
-
-    @PrePersist
-    void initializeRegisteredAt() {
-        if (registeredAt == null) {
-            registeredAt = LocalDateTime.now();
-        }
-    }
 
     public Long getId() { 
         return id; 
