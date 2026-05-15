@@ -7,15 +7,17 @@ public class RegistrationDto {
     private Long userId;
     private Long eventId;
     private LocalDateTime registeredAt;
+    private LocalDateTime updatedAt;
     private String status;
 
     public RegistrationDto() {}
 
-    public RegistrationDto(Long id, Long userId, Long eventId, LocalDateTime registeredAt, String status) {
+    public RegistrationDto(Long id, Long userId, Long eventId, LocalDateTime registeredAt, LocalDateTime updatedAt, String status) {
         this.id = id;
         this.userId = userId;
         this.eventId = eventId;
         this.registeredAt = registeredAt;
+        this.updatedAt = updatedAt;
         this.status = status;
     }
 
@@ -57,5 +59,13 @@ public class RegistrationDto {
 
     public void setStatus(String status) { 
         this.status = status; 
+    }
+
+    public LocalDateTime getUpdatedAt() { 
+        return updatedAt; 
+    }
+    
+    public void setUpdatedAt(LocalDateTime updatedAt) { 
+        this.updatedAt = updatedAt; 
     }
 }

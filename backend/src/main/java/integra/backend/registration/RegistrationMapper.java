@@ -12,6 +12,7 @@ public class RegistrationMapper {
             r.getUser().getId(), 
             r.getEvent().getId(), 
             r.getRegisteredAt(), 
+            r.getUpdatedAt(),
             r.getStatus()
         );
     }

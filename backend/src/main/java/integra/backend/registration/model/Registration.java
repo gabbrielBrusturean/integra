@@ -20,8 +20,22 @@ public class Registration {
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 
-    @Column(name = "registeredat", nullable = false)
+    @Column(name = "registeredat", nullable = false, updatable = false)
     private LocalDateTime registeredAt;
+
+    @Column(name = "updatedat")
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    void initializeTimestamps() {
+        this.registeredAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    void updateTimestamp() {
+        this.updatedAt = LocalDateTime.now(); 
+    }
 
     private String status = "PENDING";
 
@@ -34,14 +48,51 @@ public class Registration {
         }
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
-    public Event getEvent() { return event; }
-    public void setEvent(Event event) { this.event = event; }
-    public LocalDateTime getRegisteredAt() { return registeredAt; }
-    public void setRegisteredAt(LocalDateTime registeredAt) { this.registeredAt = registeredAt; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public Long getId() { 
+        return id; 
+    }
+
+    public void setId(Long id) { 
+        this.id = id; 
+    }
+
+    public User getUser() { 
+        return user; 
+    }
+
+    public void setUser(User user) {
+        this.user = user; 
+    }
+
+    public Event getEvent() { 
+        return event; 
+    }
+
+    public void setEvent(Event event) { 
+        this.event = event; 
+    }
+
+    public LocalDateTime getRegisteredAt() { 
+        return registeredAt; 
+    }
+
+    public void setRegisteredAt(LocalDateTime registeredAt) { 
+        this.registeredAt = registeredAt; 
+    }
+
+    public LocalDateTime getUpdatedAt() {
+         return updatedAt; 
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) { 
+        this.updatedAt = updatedAt;
+    }
+
+    public String getStatus() { 
+        return status; 
+    }
+
+    public void setStatus(String status) { 
+        this.status = status; 
+    }
 }
