@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Event } from '../models/event.model';
+import { RegisteredVolunteerDto } from '../models/volunteer.model';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -40,5 +44,18 @@ export class EventService {
 
   getEventById(id: number): Event | undefined {
     return this.mockEvents.find((event) => event.id === id);
+  }
+
+  constructor(private http: HttpClient) {}
+
+  getVolunteers(eventId: number, search: string = ''): Observable<RegisteredVolunteerDto[]> {
+    const url = `http://localhost:8080/api/events/${eventId}/volunteers`;
+
+    let params = new HttpParams();
+    if (search) {
+      params = params.set('search', search);
+    }
+
+    return this.http.get<RegisteredVolunteerDto[]>(url, { params });
   }
 }
