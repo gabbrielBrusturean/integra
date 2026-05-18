@@ -2,13 +2,15 @@
 spring:
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:integra}
-    driverClassName: org.postgresql.Driver
+    driver-class-name: org.postgresql.Driver
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:casca236}
     hikari:
       maximum-pool-size: 20
       minimum-idle: 5
   jpa:
+    show-sql: false
     hibernate:
       ddl-auto: validate
+      format_sql: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect

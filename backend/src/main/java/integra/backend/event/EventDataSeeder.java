@@ -16,8 +16,12 @@ import integra.backend.event.model.Event;
 public class EventDataSeeder implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(EventDataSeeder.class);
-    @Autowired
+
     private EventRepository eventRepository;
+
+    EventDataSeeder(@Autowired EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
 
     @Override
     public void run(String... args) throws Exception {
