@@ -7,6 +7,7 @@ import integra.backend.auth.dto.RegisterResponseDto;
 import integra.backend.security.JwtService;
 import integra.backend.user.UserRepository;
 import integra.backend.user.model.User;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class AuthService {
 
     public LoginResponseDto login(LoginRequestDto request) {
         User user = userRepository.findByEmail(request.email())
-                .orElseThrow(() -> new BadCredentialsException("Invalid email"));
+                .orElseThrow(() -> new BadCredentialsException("Invalid email or password"));
 
         if (user.getPasswordHash() == null || !passwordEncoder.matches(request.password(), user.getPasswordHash())) {
             throw new BadCredentialsException("Invalid email or password");
@@ -36,25 +37,33 @@ public class AuthService {
     }
 
     public RegisterResponseDto register(RegisterRequestDto request) {
-        // Check if email already exists
-        if (userRepository.findByEmail(request.email()).isPresent()) {
-            throw new IllegalArgumentException("Email already registered");
-        }
-
-        // Create new user
         User user = new User();
         user.setEmail(request.email());
         user.setFirstName(request.firstName());
         user.setLastName(request.lastName());
         user.setPasswordHash(passwordEncoder.encode(request.password()));
 
-        // Save user
-        User savedUser = userRepository.save(user);
+        User savedUser;
+        try {
+            savedUser = userRepository.save(user);
+        } catch (DataIntegrityViolationException ex) {
+            if (isDuplicateEmailViolation(ex)) {
+                throw new IllegalArgumentException("Email already registered");
+            }
+            throw ex;
+        }
 
-        // Generate token
         String token = jwtService.generateToken(savedUser);
 
         return new RegisterResponseDto(token, savedUser.getId(), savedUser.getEmail());
+    }
+
+    private boolean isDuplicateEmailViolation(DataIntegrityViolationException ex) {
+        Throwable cause = ex.getMostSpecificCause();
+        String message = cause != null ? cause.getMessage() : ex.getMessage();
+
+        return message != null && (message.contains("duplicate key value violates unique constraint")
+                || message.contains("users_email_key"));
     }
 }
 
