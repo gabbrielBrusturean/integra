@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:integra}
     username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:postgres}
+    password: ${DB_PASSWORD:casca236}
   jpa:
     show-sql: true
     hibernate:
@@ -16,3 +16,8 @@ spring:
 server:
   servlet:
     context-path: /api
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:dev-secret-key-change-me-dev-secret-key-change-me-123456}
+    expirationMinutes: 60
