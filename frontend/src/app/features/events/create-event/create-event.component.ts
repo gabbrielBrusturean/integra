@@ -8,7 +8,7 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 
 import { CreateEventRequest } from '../../../shared/models/event.model';
 import { EventService } from '../../../shared/services/event.service';
@@ -29,7 +29,8 @@ export class CreateEventComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private eventService: EventService
+    private eventService: EventService,
+    private router: Router
   ) {
     this.form = this.formBuilder.group(
       {
@@ -70,6 +71,7 @@ export class CreateEventComponent {
         this.isSubmitting = false;
         this.successMessage = 'Event created.';
         this.form.reset();
+        this.router.navigate(['/events']);
       },
       error: (err) => {
         this.isSubmitting = false;
