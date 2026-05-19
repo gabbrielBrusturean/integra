@@ -22,14 +22,13 @@ export class EventDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private eventService: EventService,
-    private cdr: ChangeDetectorRef, // 2. "Hire" the change detector
+    private cdr: ChangeDetectorRef, 
   ) {}
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.event = this.eventService.getEventById(id);
 
-    // ONE PIPELINE for everything
     this.searchSubject
       .pipe(
         map((val) => val.trim()),
@@ -45,7 +44,6 @@ export class EventDetailsComponent implements OnInit {
           this.volunteers = data;
           console.log('Table updated with:', this.volunteers.length, 'volunteers');
 
-          // 3. THE MAGIC POKE: Force Angular to refresh the UI
           this.cdr.detectChanges();
         },
         error: (err) => console.error(err),

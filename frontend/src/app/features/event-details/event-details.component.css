@@ -192,9 +192,8 @@
   width: 300px;
 }
 
-/* THE SCROLLABLE TABLE CONTAINER */
 .table-container {
-  max-height: 400px; /* Adjust this to show 5-10 rows */
+  max-height: 300px;
   overflow-y: auto;
   border: 1px solid #eee;
 }
@@ -208,7 +207,7 @@
 .volunteer-table th {
   background-color: #f8f9fa;
   padding: 12px;
-  position: sticky; /* Keeps the header at the top while scrolling */
+  position: sticky;
   top: 0;
   border-bottom: 2px solid #dee2e6;
   z-index: 1;
