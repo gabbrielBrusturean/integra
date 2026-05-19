@@ -47,7 +47,6 @@ export class CreateEventComponent {
   onSubmit(): void {
     this.successMessage = null;
     this.errorMessage = null;
-
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -64,11 +63,20 @@ export class CreateEventComponent {
       maxParticipants: Number(raw.maxParticipants ?? 0),
     };
 
-    // Step 1: validation-only (no backend call yet)
-    // Keep the payload building in place so wiring the API later is trivial.
-    console.log('CreateEvent payload (not sent yet):', payload);
-    this.successMessage = 'Form is valid.';
-    this.form.reset();
+    this.isSubmitting = true;
+
+    this.eventService.create(payload).subscribe({
+      next: (resp) => {
+        this.isSubmitting = false;
+        this.successMessage = 'Event created.';
+        this.form.reset();
+      },
+      error: (err) => {
+        this.isSubmitting = false;
+        console.error('Create event failed', err);
+        this.errorMessage = err?.error?.message ?? 'Failed to create event.';
+      },
+    });
   }
 
   isInvalid(controlName: string): boolean {

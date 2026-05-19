@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Event } from '../models/event.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable, catchError, tap, throwError } from 'rxjs';
+import { Event, CreateEventRequest, CreateEventResponse } from '../models/event.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventService {
+  private baseUrl = '/api/events';
+  constructor(private http: HttpClient) {}
   private mockEvents: Event[] = [
     {
       id: 1,
@@ -40,5 +44,16 @@ export class EventService {
 
   getEventById(id: number): Event | undefined {
     return this.mockEvents.find((event) => event.id === id);
+  }
+
+  create(payload: CreateEventRequest): Observable<CreateEventResponse> {
+    console.log('EventService.create ->', this.baseUrl, payload);
+    return this.http.post<CreateEventResponse>(this.baseUrl, payload).pipe(
+      tap((resp) => console.log('EventService.create response ->', resp)),
+      catchError((err) => {
+        console.error('EventService.create error ->', err);
+        return throwError(() => err);
+      })
+    );
   }
 }
