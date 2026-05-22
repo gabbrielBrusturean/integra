@@ -1,5 +1,5 @@
 package integra.backend.event;
-
+import integra.backend.event.model.RegisteredVolunteerDto;
 import integra.backend.event.model.EventResponseDto;
 import integra.backend.event.model.EventRequestDto;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/events")
+@CrossOrigin(origins = "http://localhost:4200")
 public class EventController {
     private final EventService service;
     private final EventMapper mapper;
@@ -48,5 +49,14 @@ public class EventController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id) {
         service.deleteById(id);
+    }
+
+    @GetMapping("/{eventId}/volunteers")
+    public ResponseEntity<List<RegisteredVolunteerDto>> getVolunteers(
+            @PathVariable("eventId") Long eventId,
+            @RequestParam(value = "search", required = false) String search) {
+        
+        List<RegisteredVolunteerDto> volunteers = service.getRegisteredVolunteers(eventId, search);
+        return ResponseEntity.ok(volunteers);
     }
 }
