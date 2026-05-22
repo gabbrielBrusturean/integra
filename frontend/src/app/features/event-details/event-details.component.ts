@@ -54,6 +54,8 @@ export class EventDetailsComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     this.searchSubject.next(input.value);
   }
+  
+
   onRegister(): void {
     if (this.event) {
       alert(`Success! You have registered for: ${this.event.title}.`);
