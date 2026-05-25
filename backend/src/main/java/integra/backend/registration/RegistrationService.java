@@ -2,6 +2,7 @@ package integra.backend.registration;
 
 import integra.backend.registration.model.Registration;
 import integra.backend.user.UserRepository;
+import integra.backend.user.model.User;
 import integra.backend.event.EventRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -39,14 +40,12 @@ public class RegistrationService {
         return repository.findByEventIdAndUserId(eventId, userId); 
     }
 
-    //POST
     public Registration create(Long userId, Long eventId, Registration registration) {
         registration.setUser(userRepository.findById(userId).orElseThrow());
         registration.setEvent(eventRepository.findById(eventId).orElseThrow());
         return repository.save(registration);
     }
 
-    //PUT
     public Optional<Registration> updateStatus(Long id, String newStatus) {
         return repository.findById(id).map(registration -> {
             registration.setStatus(newStatus);
@@ -54,10 +53,16 @@ public class RegistrationService {
         });
     }
 
-    //DEL
     public boolean delete(Long id) {
         if (!repository.existsById(id)) return false;
         repository.deleteById(id);
         return true;
+    }
+
+    // New method for JWT functionality
+    public List<Registration> getByUsername(String username) {
+        User user = userRepository.findByUsername(username)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        return repository.findByUserId(user.getId());
     }
 }

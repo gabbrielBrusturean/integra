@@ -1,13 +1,17 @@
 package integra.backend.registration;
 
 import integra.backend.registration.model.RegistrationDto;
+import integra.backend.registration.model.UserRegistrationResponseDto;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.security.Principal;
 
 @RestController
-@RequestMapping("/registrations")
+@RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:4200")
 public class RegistrationController {
     private final RegistrationService service;
     private final RegistrationMapper mapper;
@@ -52,7 +56,6 @@ public class RegistrationController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    //POST
     @PostMapping
     public ResponseEntity<RegistrationDto> create(@RequestBody RegistrationDto dto) {
         return ResponseEntity.status(201).body(
@@ -60,7 +63,6 @@ public class RegistrationController {
         );
     }
 
-    //PUT
     @PutMapping("/{id}")
     public ResponseEntity<RegistrationDto> updateStatus(@PathVariable Long id, @RequestBody RegistrationDto dto) {
         return service.updateStatus(id, dto.getStatus())
@@ -68,9 +70,16 @@ public class RegistrationController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    //DEL
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         return service.delete(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/me/registrations")
+    public List<UserRegistrationResponseDto> getMyRegistrations(Principal principal) {
+        String username = principal.getName(); 
+        return service.getByUsername(username).stream()
+                .map(mapper::toUserRegistrationResponse)
+                .collect(Collectors.toList());
     }
 }

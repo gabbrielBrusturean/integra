@@ -1,21 +1,14 @@
-import { Routes } from '@angular/router';
-import { EventListComponent } from './features/event-list/event-list.component';
-import { EventDetailsComponent } from './features/event-details/event-details.component';
+import {Routes} from '@angular/router';
+import {Home} from './features/home/home';
+import { MyRegistrationsComponent } from './features/my-registrations/my-registrations';
 
 export const routes: Routes = [
   {
-    path: 'events', component: EventListComponent,
+    path: '',
+    component: Home,
   },
-
   {
-    path: 'events/:id', component: EventDetailsComponent,
-  },
-
-  {
-    path: '', redirectTo: '/events', pathMatch: 'full',
-  },
-
-  {
-    path: '**', redirectTo: '/events'
-  },
+    path: 'my-registrations',
+    component: MyRegistrationsComponent,
+  }
 ];
