@@ -50,7 +50,7 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Map<String, String>> handleAccessDenied(AccessDeniedException ex) {
-        return ResponseEntity.status(401).body(Map.of("error", "Unauthorized: Missing or invalid token"));
+        return ResponseEntity.status(403).body(Map.of("error", "Forbidden: You do not have permission to access this resource"));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

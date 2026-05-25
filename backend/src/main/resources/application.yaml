@@ -19,5 +19,5 @@ server:
 
 app:
   jwt:
-    secret: ${JWT_SECRET:dev-secret-key-change-me-dev-secret-key-change-me-123456}
-    expirationMinutes: 60
+    secret: ${JWT_SECRET}
+    expirationMinutes: ${JWT_EXPIRATION_MINUTES:60}
