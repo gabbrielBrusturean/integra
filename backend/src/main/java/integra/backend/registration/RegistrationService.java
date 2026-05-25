@@ -59,9 +59,8 @@ public class RegistrationService {
         return true;
     }
 
-    // New method for JWT functionality
     public List<Registration> getByUsername(String username) {
-        User user = userRepository.findByUsername(username)
+        User user = userRepository.findByEmail(username)
             .orElseThrow(() -> new RuntimeException("User not found"));
         return repository.findByUserId(user.getId());
     }
