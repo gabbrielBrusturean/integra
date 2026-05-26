@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -50,7 +49,8 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Map<String, String>> handleAccessDenied(AccessDeniedException ex) {
-        return ResponseEntity.status(403).body(Map.of("error", "Forbidden: You do not have permission to access this resource"));
+        return ResponseEntity.status(403)
+                .body(Map.of("error", "Forbidden: You do not have permission to access this resource"));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
