@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { Event, CreateEventRequest, CreateEventResponse } from '../models/event.model';
+import { RegisteredVolunteerDto } from '../models/volunteer.model';
+import { HttpClient } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -52,5 +54,17 @@ export class EventService {
         return throwError(() => err);
       })
     );
+  }
+  
+
+  getVolunteers(eventId: number, search: string = ''): Observable<RegisteredVolunteerDto[]> {
+    const url = `http://localhost:8080/api/events/${eventId}/volunteers`;
+
+    let params = new HttpParams();
+    if (search) {
+      params = params.set('search', search);
+    }
+
+    return this.http.get<RegisteredVolunteerDto[]>(url, { params });
   }
 }
