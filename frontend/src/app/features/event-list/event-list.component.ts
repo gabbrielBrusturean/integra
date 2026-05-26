@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Event } from '../../shared/models/event.model';
@@ -12,12 +12,23 @@ import { EventService } from '../../shared/services/event.service';
   styleUrls: ['./event-list.component.css'],
 })
 export class EventListComponent implements OnInit {
-  events: Event[] = [];
-
-  constructor(private eventService: EventService) {}
+  eventService = inject(EventService);
+  events= signal<Event[]>([]);
 
   ngOnInit(): void {
-    this.events = this.eventService.getEvents();
+    this.getEvents();
+  }
+
+  getEvents(){
+    this.eventService.getEvents().subscribe({
+      next:(res:any)=>{
+        this.events.set(res);
+        console.log(res)
+      },
+      error:(err)=>{
+        console.log(err.message)
+      }
+    })
   }
 
 }
