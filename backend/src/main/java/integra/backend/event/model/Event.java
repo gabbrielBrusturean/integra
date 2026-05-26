@@ -25,11 +25,12 @@ public class Event {
     private LocalDateTime endAt;
     private LocalDateTime createdAt;
     private Integer maxParticipants;
+    private Boolean reminderSent = false;
 
     public Event() {}
 
-    public Event(Long id, String title, String description, String location, LocalDateTime startAt,
-            LocalDateTime endAt, LocalDateTime createdAt, Integer maxParticipants) {
+    public Event(Long id, String title, String description, String location, LocalDateTime startAt, LocalDateTime endAt,
+            LocalDateTime createdAt, Integer maxParticipants) {
         this.id = id;
         this.title = title;
         this.description = description;

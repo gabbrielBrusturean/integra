@@ -1,9 +1,13 @@
 package integra.backend.event;
+
 import integra.backend.event.model.RegisteredVolunteerDto;
 import integra.backend.event.model.EventResponseDto;
 import integra.backend.event.model.EventRequestDto;
+import integra.backend.reminder.ReminderDispatchResult;
+import integra.backend.reminder.EventReminderService;
 import jakarta.validation.Valid;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +18,12 @@ import org.springframework.web.bind.annotation.*;
 public class EventController {
     private final EventService service;
     private final EventMapper mapper;
+    private final EventReminderService reminderService;
 
-    public EventController(EventService service, EventMapper mapper) {
+    public EventController(EventService service, EventMapper mapper, EventReminderService reminderService) {
         this.service = service;
         this.mapper = mapper;
+        this.reminderService = reminderService;
     }
 
     @GetMapping
@@ -48,11 +54,15 @@ public class EventController {
     }
 
     @GetMapping("/{eventId}/volunteers")
-    public ResponseEntity<List<RegisteredVolunteerDto>> getVolunteers(
-            @PathVariable("eventId") Long eventId,
+    public ResponseEntity<List<RegisteredVolunteerDto>> getVolunteers(@PathVariable("eventId") Long eventId,
             @RequestParam(value = "search", required = false) String search) {
-        
+
         List<RegisteredVolunteerDto> volunteers = service.getRegisteredVolunteers(eventId, search);
         return ResponseEntity.ok(volunteers);
+    }
+
+    @PostMapping("/{eventId}/send-reminders")
+    public ResponseEntity<ReminderDispatchResult> sendReminders(@PathVariable("eventId") Long eventId) {
+        return ResponseEntity.ok(reminderService.sendRemindersForEvent(eventId));
     }
 }
