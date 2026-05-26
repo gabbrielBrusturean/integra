@@ -71,11 +71,12 @@ export class CreateEventComponent {
         this.isSubmitting = false;
         this.successMessage = 'Event created.';
         this.form.reset();
-        this.router.navigate(['/events']);
+        setTimeout(() => {
+          this.router.navigate(['/events']);
+        }, 2000);
       },
       error: (err) => {
         this.isSubmitting = false;
-        console.error('Create event failed', err);
         this.errorMessage = err?.error?.message ?? 'Failed to create event.';
       },
     });

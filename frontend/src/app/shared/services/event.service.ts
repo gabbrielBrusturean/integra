@@ -47,11 +47,8 @@ export class EventService {
   }
 
   create(payload: CreateEventRequest): Observable<CreateEventResponse> {
-    console.log('EventService.create ->', this.baseUrl, payload);
     return this.http.post<CreateEventResponse>(this.baseUrl, payload).pipe(
-      tap((resp) => console.log('EventService.create response ->', resp)),
       catchError((err) => {
-        console.error('EventService.create error ->', err);
         return throwError(() => err);
       })
     );
