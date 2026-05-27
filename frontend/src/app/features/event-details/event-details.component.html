@@ -16,9 +16,7 @@
         <div class="rules-box">
           <h4>Participation Rules</h4>
           <ul>
-            <li>
-              Registration is open until {{ event.registrationDeadline | date: 'medium' }}.
-            </li>
+            <li>Registration is open until {{ event.registrationDeadline | date: 'medium' }}.</li>
           </ul>
         </div>
       </section>
@@ -55,6 +53,39 @@
             <span class="status-indicator" [class.full]="event.isFull">
               {{ event.isFull ? 'Waitlist Only (Full)' : 'Currently Open' }}
             </span>
+          </div>
+        </section>
+
+        <section class="volunteers-section">
+          <div class="section-header">
+            <h3>Registered Volunteers ({{ volunteers.length }})</h3>
+            <input 
+              type="text" 
+              class="search-input" 
+              placeholder="Search by name or email..." 
+              (input)="onSearch($event)">
+          </div>
+
+          <div class="table-container">
+            <table class="volunteer-table">
+              <thead>
+                <tr>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email Address</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let v of volunteers">
+                  <td>{{ v.firstName }}</td>
+                  <td>{{ v.lastName }}</td>
+                  <td>{{ v.email }}</td>
+                </tr>
+                <tr *ngIf="volunteers.length === 0">
+                  <td colspan="3" class="no-results">No volunteers found matching your search.</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </section>
 
