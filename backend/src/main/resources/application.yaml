@@ -30,9 +30,9 @@ spring:
 
 app:
   reminders:
-    enabled: ${REMINDERS_ENABLED:true}
+    enabled: ${REMINDERS_ENABLED:false}
     cron: ${REMINDERS_CRON:0 0 9 * * *}
-    from: ${MAIL_FROM:${MAIL_USERNAME:notifications@integra.local}}
+    from: ${MAIL_USERNAME}
 
 server:
   servlet:
