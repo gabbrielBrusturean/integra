@@ -3,6 +3,7 @@ import { EventListComponent } from './features/event-list/event-list.component';
 import { EventDetailsComponent } from './features/event-details/event-details.component';
 import {Home} from './features/home/home';
 import { Admin } from './features/admin/admin';
+import { CreateEventComponent } from './features/events/create-event/create-event.component';
 
 export const routes: Routes = [
   {
@@ -15,6 +16,10 @@ export const routes: Routes = [
   },
   {
     path: 'events', component: EventListComponent,
+  },
+
+  {
+    path: 'events/create', component: CreateEventComponent,
   },
 
   {
