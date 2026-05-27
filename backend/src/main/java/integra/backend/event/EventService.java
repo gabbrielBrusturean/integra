@@ -1,16 +1,25 @@
 package integra.backend.event;
-import integra.backend.event.model.RegisteredVolunteerDto;
 import integra.backend.event.model.Event;
+import integra.backend.event.model.EventRegistration;
+import integra.backend.event.model.RegisteredVolunteerDto;
 import integra.backend.exception.ResourceNotFoundException;
+import integra.backend.exception.DuplicateResourceException;
+import integra.backend.user.UserRepository;
+import integra.backend.user.model.User;
+
 import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EventService {
     private final EventRepository eventRepository;
+    private final EventRegistrationRepository registrationRepository;
+    private final UserRepository userRepository;
 
-    public EventService(EventRepository eventRepository) {
+    public EventService(EventRepository eventRepository, EventRegistrationRepository registrationRepository, UserRepository userRepository) {
         this.eventRepository = eventRepository;
+        this.registrationRepository = registrationRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Event> getAll() {
@@ -42,6 +51,19 @@ public class EventService {
         return eventRepository.save(existing);
     }
 
+    public void registerVolunteer(Long eventId, Long volunteerId) {
+        Event event = getById(eventId);
+        User volunteer = userRepository.findById(volunteerId)
+                .orElseThrow(() -> new ResourceNotFoundException("User with id " + volunteerId + " was not found"));
+        
+        if (registrationRepository.existsByEventIdAndUserId(eventId, volunteerId)) {
+            throw new DuplicateResourceException("Volunteer is already registered for this event");
+        }
+        
+        EventRegistration registration = new EventRegistration(event, volunteer);
+        registrationRepository.save(registration);
+    }
+
     
     public List<RegisteredVolunteerDto> getRegisteredVolunteers(Long eventId, String search) {
         List<RegisteredVolunteerDto> mockData = List.of(
@@ -59,8 +81,6 @@ public class EventService {
             new RegisteredVolunteerDto(12L, "Laura", "Codruța", "laura.c@justice.ro"),
             new RegisteredVolunteerDto(14L, "Victoria", "Georgescu", "victoria.geo@gmail.ro"),
             new RegisteredVolunteerDto(16L, "Marius", "Avram", "marius.avram@gmail.com")
-
-
         );
 
         List<RegisteredVolunteerDto> eventSpecificList = mockData.stream()
@@ -87,5 +107,4 @@ public class EventService {
         })
         .toList();
     }
-
 }

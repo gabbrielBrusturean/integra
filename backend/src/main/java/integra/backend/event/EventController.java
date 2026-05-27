@@ -2,10 +2,14 @@ package integra.backend.event;
 import integra.backend.event.model.RegisteredVolunteerDto;
 import integra.backend.event.model.EventResponseDto;
 import integra.backend.event.model.EventRequestDto;
+import integra.backend.event.model.RegistrationRequestDto;
 import jakarta.validation.Valid;
+
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -45,6 +49,12 @@ public class EventController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id) {
         service.deleteById(id);
+    }
+
+    @PostMapping("/{eventId}/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void registerVolunteer(@PathVariable("eventId") Long eventId, @Valid @RequestBody RegistrationRequestDto request) {
+        service.registerVolunteer(eventId, request.volunteerId());
     }
 
     @GetMapping("/{eventId}/volunteers")
