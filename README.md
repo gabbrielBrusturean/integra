@@ -1,61 +1,72 @@
-## Branch and Commit Conventions
+# Volunteering Platform
 
-To keep the repository organized and easy to follow, all team members should use the same lightweight conventions for branch names and commit messages.
+## Overview
 
-### Branch Naming
+The **Volunteering Platform** is an event management application designed to connect volunteers with organizations and opportunities. It allows users to discover, participate in, and manage volunteer events.
 
-Branch names should follow this format:
+## Prerequisites
 
-```text
-<type>/INT-XX-short-description
+install before running the project:
+
+- Node.js & npm
+- Java
+- PostgreSQL
+- DBeaver
+
+## Backend Setup & Run
+
+1. Navigate to the backend project directory.
+
+2. Run the following command:
+```bash
+   gradle bootRun
 ```
 
-Allowed branch types:
+3. Note:
+   - The backend will build successfully.
+   - It will **not stay running** until the database connection is properly configured.
 
-- `feature` - for new functionality
-- `bug` - for bug fixes
-- `test` - for test-related changes
-- `docs` - for adding documentation
 
-The task code should match the Trello/Jira task ID, for example `INT-05`.
+## Frontend Setup & Run
 
-The description should be short, clear, and written in lowercase using hyphens between words.
+1. Navigate to the frontend project directory.
 
-Examples:
-
-```text
-feature/INT-05-define-domain-model
-feature/INT-12-add-event-list
-bug/INT-18-fix-registration-validation
-test/INT-21-add-event-service-tests
+2. Install dependencies:
+```bash
+   npm install
 ```
 
-### Commit Messages
-
-Commit messages should be short, clear, and describe what changed.
-
-There is no strict commit format required, but messages should be concise and meaningful.
-
-Good examples:
-
-```text
-Add initial Event model
-Define user roles for MVP
-Fix registration validation
-Add basic tests for event service
-Update README with branch conventions
+3. Start the application:
+```bash
+   npm run start
 ```
 
-Avoid vague messages such as:
+## PostgreSQL Setup
 
-```text
-changes
-fix
-update
-stuff
-wip
+1. Open DBeaver and connect to your PostgreSQL server (ex: default `postgres` database)
+
+2. Run the following SQL command:
+```sql
+   CREATE DATABASE integra;
 ```
 
-### Summary
+3. make a new connection in dbeaver
+   - make sure u added the correct username and pass
+   - by this u should have a DB and coneected to it on dbeaver
 
-Use clear branch names and commit messages so that everyone can understand the purpose of a change without needing extra context.
+4. Update your backend configuration:
+   - create a .env file in backend folder
+   - add your own username and password for DB connection
+      - DB_USERNAME=username
+      - DB_PASSWORD=password
+
+5. rerun gradle bootRun
+   - The application should now run successfully and remain up
+   - u can check by going to http://localhost:8080/api/coffeemugs
+
+
+## Notes
+
+- Ensure PostgreSQL is running before starting the backend
+- check database credentials if the backend fails to start
+- check **Wiki section on Github** for naming Conventions and workflow

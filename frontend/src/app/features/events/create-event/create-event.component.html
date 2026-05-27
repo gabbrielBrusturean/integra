@@ -1,0 +1,147 @@
+<section class="mx-auto max-w-2xl">
+  <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200 md:p-8">
+    <header class="mb-6">
+      <h1 class="text-3xl font-extrabold text-green-900">Create Event</h1>
+      <p class="mt-2 text-sm text-gray-600">Fill in the details below to create a new event.</p>
+    </header>
+
+    @if (successMessage) {
+      <div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-green-900">
+        {{ successMessage }}
+      </div>
+    }
+
+    @if (errorMessage) {
+      <div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-900">
+        {{ errorMessage }}
+      </div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+    <div>
+      <label for="title" class="block text-sm font-semibold text-gray-900">
+        Title <span class="text-red-600">*</span>
+      </label>
+      <input
+        id="title"
+        type="text"
+        formControlName="title"
+        class="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:border-green-700 focus:outline-none focus:ring-2 focus:ring-green-200"
+        [class.border-red-400]="isInvalid('title')"
+        placeholder="Clean-up Day"
+      />
+      @if (fieldError('title')) {
+        <p class="mt-1 text-sm text-red-700">{{ fieldError('title') }}</p>
+      }
+    </div>
+
+    <div>
+      <label for="description" class="block text-sm font-semibold text-gray-900">
+        Description <span class="text-red-600">*</span>
+      </label>
+      <textarea
+        id="description"
+        rows="4"
+        formControlName="description"
+        class="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:border-green-700 focus:outline-none focus:ring-2 focus:ring-green-200"
+        [class.border-red-400]="isInvalid('description')"
+        placeholder="Volunteer event for cleaning the park."
+      ></textarea>
+      @if (fieldError('description')) {
+        <p class="mt-1 text-sm text-red-700">{{ fieldError('description') }}</p>
+      }
+    </div>
+
+    <div>
+      <label for="location" class="block text-sm font-semibold text-gray-900">
+        Location <span class="text-red-600">*</span>
+      </label>
+      <input
+        id="location"
+        type="text"
+        formControlName="location"
+        class="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:border-green-700 focus:outline-none focus:ring-2 focus:ring-green-200"
+        [class.border-red-400]="isInvalid('location')"
+        placeholder="Central Park, Cluj-Napoca"
+      />
+      @if (fieldError('location')) {
+        <p class="mt-1 text-sm text-red-700">{{ fieldError('location') }}</p>
+      }
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2">
+      <div>
+        <label for="startAt" class="block text-sm font-semibold text-gray-900">
+          Start date/time <span class="text-red-600">*</span>
+        </label>
+        <input
+          id="startAt"
+          type="datetime-local"
+          formControlName="startAt"
+          class="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:border-green-700 focus:outline-none focus:ring-2 focus:ring-green-200"
+          [class.border-red-400]="isInvalid('startAt')"
+        />
+        @if (fieldError('startAt')) {
+          <p class="mt-1 text-sm text-red-700">{{ fieldError('startAt') }}</p>
+        }
+      </div>
+
+      <div>
+        <label for="endAt" class="block text-sm font-semibold text-gray-900">
+          End date/time <span class="text-red-600">*</span>
+        </label>
+        <input
+          id="endAt"
+          type="datetime-local"
+          formControlName="endAt"
+          class="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:border-green-700 focus:outline-none focus:ring-2 focus:ring-green-200"
+          [class.border-red-400]="isInvalid('endAt') || showEndAfterStartError()"
+        />
+        @if (fieldError('endAt')) {
+          <p class="mt-1 text-sm text-red-700">{{ fieldError('endAt') }}</p>
+        }
+        @if (showEndAfterStartError()) {
+          <p class="mt-1 text-sm text-red-700">End date must be after start date.</p>
+        }
+      </div>
+    </div>
+
+    <div>
+      <label for="maxParticipants" class="block text-sm font-semibold text-gray-900">
+        Maximum participants <span class="text-red-600">*</span>
+      </label>
+      <input
+        id="maxParticipants"
+        type="number"
+        min="1"
+        formControlName="maxParticipants"
+        class="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:border-green-700 focus:outline-none focus:ring-2 focus:ring-green-200"
+        [class.border-red-400]="isInvalid('maxParticipants')"
+        placeholder="20"
+      />
+      @if (fieldError('maxParticipants')) {
+        <p class="mt-1 text-sm text-red-700">{{ fieldError('maxParticipants') }}</p>
+      }
+    </div>
+
+    <div class="flex items-center gap-3">
+      <button
+        type="submit"
+        class="inline-flex items-center justify-center rounded-lg bg-green-700 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+        [disabled]="isSubmitting"
+      >
+        {{ isSubmitting ? 'Creating…' : 'Create event' }}
+      </button>
+
+      <a
+        routerLink="/events"
+        class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-900"
+        [class.pointer-events-none]="isSubmitting"
+        [class.opacity-60]="isSubmitting"
+      >
+        Cancel
+      </a>
+    </div>
+  </form>
+  </div>
+</section>

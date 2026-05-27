@@ -1,16 +1,13 @@
 package integra.backend.event.model;
 
 import java.time.LocalDateTime;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 public record EventResponseDto(Long id,
-                @NotBlank(message = "title is required") @Size(max = 255,
-                                message = "title must be at most 255 characters") String title,
-                String description, String location,
-                @NotNull(message = "startAt is required") LocalDateTime startAt,
-                @NotNull(message = "endAt is required") LocalDateTime endAt,
-                @NotNull(message = "createdAt is required") LocalDateTime createdAt,
-                Integer maxParticipants) {
+        String title,
+        String description,
+        String location,
+        LocalDateTime startAt,
+        LocalDateTime endAt,
+        LocalDateTime createdAt,
+        Integer maxParticipants) {
 }
