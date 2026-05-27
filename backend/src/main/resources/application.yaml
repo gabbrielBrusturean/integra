@@ -32,7 +32,7 @@ app:
   reminders:
     enabled: ${REMINDERS_ENABLED:false}
     cron: ${REMINDERS_CRON:0 0 9 * * *}
-    from: ${MAIL_USERNAME}
+    from: ${MAIL_USERNAME:integrabackend@gmail.com}
 
 server:
   servlet:
