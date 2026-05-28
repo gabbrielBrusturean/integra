@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Event } from '../models/event.model';
+import { Observable, catchError, throwError } from 'rxjs';
+import { Event, CreateEventRequest, CreateEventResponse } from '../models/event.model';
 import { RegisteredVolunteerDto } from '../models/volunteer.model';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { HttpParams } from '@angular/common/http';
 
@@ -9,6 +9,8 @@ import { HttpParams } from '@angular/common/http';
   providedIn: 'root',
 })
 export class EventService {
+  private baseUrl = '/api/events';
+  constructor(private http: HttpClient) {}
   private mockEvents: Event[] = [
     {
       id: 1,
@@ -46,7 +48,14 @@ export class EventService {
     return this.mockEvents.find((event) => event.id === id);
   }
 
-  constructor(private http: HttpClient) {}
+  create(payload: CreateEventRequest): Observable<CreateEventResponse> {
+    return this.http.post<CreateEventResponse>(this.baseUrl, payload).pipe(
+      catchError((err) => {
+        return throwError(() => err);
+      })
+    );
+  }
+  
 
   getVolunteers(eventId: number, search: string = ''): Observable<RegisteredVolunteerDto[]> {
     const url = `http://localhost:8080/api/events/${eventId}/volunteers`;
