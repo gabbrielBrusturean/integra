@@ -1,6 +1,6 @@
-spring:   
-   datasource:
-      url: jdbc:postgresql://aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require
-      username: postgres.ngtwukpkejtvwvajuwsq
-      password: V9!rKq#72Lm@xT4pZs6_Ne
-      driver-class-name: org.postgresql.Driver
+spring:
+  datasource:
+    url: jdbc:postgresql://aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require
+    username: postgres.ngtwukpkejtvwvajuwsq
+    password: "V9!rKq#72Lm@xT4pZs6_Ne"
+    driver-class-name: org.postgresql.Driver

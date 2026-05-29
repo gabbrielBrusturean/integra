@@ -2,12 +2,10 @@ package integra.backend.registration;
 
 import integra.backend.registration.model.RegistrationDto;
 import integra.backend.registration.model.UserRegistrationResponseDto;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.security.Principal;
 
 @RestController
 @RequestMapping("/api")
@@ -76,10 +74,13 @@ public class RegistrationController {
     }
 
     @GetMapping("/me/registrations")
-    public List<UserRegistrationResponseDto> getMyRegistrations(Principal principal) {
-        String username = principal.getName(); 
-        return service.getByUsername(username).stream()
+    public ResponseEntity<List<UserRegistrationResponseDto>> getMyRegistrations() {
+        Long temporaryUserId = 1L; 
+        
+        List<UserRegistrationResponseDto> registrations = service.getByUserId(temporaryUserId).stream()
                 .map(mapper::toUserRegistrationResponse)
                 .collect(Collectors.toList());
+                
+        return ResponseEntity.ok(registrations);
     }
 }

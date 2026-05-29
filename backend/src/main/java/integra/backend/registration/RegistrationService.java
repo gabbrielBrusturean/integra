@@ -2,7 +2,6 @@ package integra.backend.registration;
 
 import integra.backend.registration.model.Registration;
 import integra.backend.user.UserRepository;
-import integra.backend.user.model.User;
 import integra.backend.event.EventRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -57,11 +56,5 @@ public class RegistrationService {
         if (!repository.existsById(id)) return false;
         repository.deleteById(id);
         return true;
-    }
-
-    public List<Registration> getByUsername(String username) {
-        User user = userRepository.findByEmail(username)
-            .orElseThrow(() -> new RuntimeException("User not found"));
-        return repository.findByUserId(user.getId());
     }
 }
