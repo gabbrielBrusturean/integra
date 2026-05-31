@@ -7,11 +7,11 @@ import { UserRegistrationResponse } from './registration.model';
   providedIn: 'root'
 })
 export class RegistrationService {
-  private apiUrl = 'http://localhost:8080/api/me/registrations';
+  private apiUrl = '/api/me/registrations';
 
   constructor(private http: HttpClient) {}
 
   getMyRegistrations(): Observable<UserRegistrationResponse[]> {
-    return this.http.get<UserRegistrationResponse[]>(this.apiUrl, { withCredentials: true });
+    return this.http.get<UserRegistrationResponse[]>(this.apiUrl);
   }
 }
