@@ -1,0 +1,39 @@
+<div class="overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
+    <table class="min-w-full text-sm divide-y divide-gray-200">
+        <thead class="bg-gray-100">
+            <!-- <tr>     -->
+                <!-- <app-admin-table-header [columns]="columns()"></app-admin-table-header> -->
+            <!-- </tr> -->
+                @for (column of columns(); track $index) {
+                    <th class="px-4 py-3 text-left font-semibold text-gray-700 whitespace-nowrap ">{{ column.label }}</th>
+                } 
+        </thead>
+        <tbody class="divide-y divide-gray-200 bg-white">
+            @for (item of data(); track $index) {
+                <tr class="hover:bg-blue-50">
+                    @for (column of columns(); track $index) {
+                        <td class="whitespace-nowrap px-4 py-3 text-gray-700">
+                            @switch (column.type) {
+                                @case ('string') {
+                                    {{ item[column.key] }}
+                                }
+                                @case ('number') {
+                                    {{ item[column.key] }}
+                                }
+                                @case ('datetime') {
+                                    {{ item[column.key] }}
+                                }
+                                @case ('boolean') {
+                                    
+                                    <span class="rounded-full px-4 py-2 " [ngClass]=" item[column.key] ? 'bg-red-500' : 'bg-green-400'">
+                                    {{ item[column.key] ? 'Full' : 'Available' }}
+                                    </span>
+                                }
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
