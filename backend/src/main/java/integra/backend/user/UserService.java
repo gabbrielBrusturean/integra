@@ -23,11 +23,15 @@ public class UserService {
     }
 
     public User create(User user) {
+        ensureEmailIsAvailable(user.getEmail());
         return repository.save(user);
     }
 
     public Optional<User> update(Long id, User updatedUser) {
         return repository.findById(id).map(existing -> {
+            if (!existing.getEmail().equals(updatedUser.getEmail())) {
+                ensureEmailIsAvailable(updatedUser.getEmail());
+            }
             existing.setFirstName(updatedUser.getFirstName());
             existing.setLastName(updatedUser.getLastName());
             existing.setEmail(updatedUser.getEmail());
@@ -41,5 +45,11 @@ public class UserService {
         }
         repository.deleteById(id);
         return true;
+    }
+
+    private void ensureEmailIsAvailable(String email) {
+        if (repository.existsByEmail(email)) {
+            throw new IllegalArgumentException("Email already registered");
+        }
     }
 }
