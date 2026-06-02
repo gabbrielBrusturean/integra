@@ -62,7 +62,9 @@ public class EventController {
             @PathVariable("eventId") Long eventId,
             @RequestParam(value = "search", required = false) String search) {
         
-        List<RegisteredVolunteerDto> volunteers = service.getRegisteredVolunteers(eventId, search);
+        List<RegisteredVolunteerDto> volunteers = service.getRegisteredVolunteers(eventId, search).stream()
+                .map(u -> new RegisteredVolunteerDto(u.getId(), u.getFirstName(), u.getLastName(), u.getEmail()))
+                .collect(Collectors.toList());
         return ResponseEntity.ok(volunteers);
     }
 }
