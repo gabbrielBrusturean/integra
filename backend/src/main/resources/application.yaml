@@ -17,3 +17,8 @@ spring:
 server:
   servlet:
     context-path: /api
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    expirationMinutes: ${JWT_EXPIRATION_MINUTES:60}
