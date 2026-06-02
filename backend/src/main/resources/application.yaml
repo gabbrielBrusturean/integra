@@ -33,12 +33,10 @@ app:
     enabled: ${REMINDERS_ENABLED:false}
     cron: ${REMINDERS_CRON:0 0 9 * * *}
     from: ${MAIL_USERNAME:integrabackend@gmail.com}
+  jwt:
+    secret: ${JWT_SECRET}
+    expirationMinutes: ${JWT_EXPIRATION_MINUTES:60}
 
 server:
   servlet:
     context-path: /api
-
-app:
-  jwt:
-    secret: ${JWT_SECRET}
-    expirationMinutes: ${JWT_EXPIRATION_MINUTES:60}
