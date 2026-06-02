@@ -1,4 +1,13 @@
 <div class="min-h-screen flex flex-col justify-between">
+  <header class="flex justify-between  items-center h-10 bg-green-400 px-8">
+    <h1 class="text-lg font-bold">My Application</h1>
+    <nav class="flex justify-evenly gap-4 font-semibold">
+      <a routerLink="">Home</a>
+      <a routerLink="admin">Admin</a>
+    </nav>
+
+  </header>
+
   <main class="m-4 flex-grow">
     <router-outlet />
   </main>

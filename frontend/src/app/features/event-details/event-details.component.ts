@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, switchMap, startWith } from 'rxjs';
@@ -15,19 +15,20 @@ import { EventService } from '../../shared/services/event.service';
   styleUrls: ['./event-details.component.css'],
 })
 export class EventDetailsComponent implements OnInit {
+  eventService = inject(EventService)
+
   event?: Event;
   volunteers: RegisteredVolunteerDto[] = [];
   private searchSubject = new BehaviorSubject<string>('');
 
   constructor(
     private route: ActivatedRoute,
-    private eventService: EventService,
     private cdr: ChangeDetectorRef, 
   ) {}
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.event = this.eventService.getEventById(id);
+    this.getEventById(id)
 
     this.searchSubject
       .pipe(
@@ -48,6 +49,17 @@ export class EventDetailsComponent implements OnInit {
         },
         error: (err) => console.error(err),
       });
+  }
+
+  getEventById(id:number){
+    this.eventService.getEventById(id).subscribe({
+      next:(res: any)=>{
+        this.event = res
+      },
+      error:(err: any)=>{
+        console.log(err.message)
+      }
+    })
   }
 
   onSearch(event: any): void {
