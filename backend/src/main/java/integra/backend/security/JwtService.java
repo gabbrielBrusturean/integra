@@ -27,7 +27,8 @@ public class JwtService {
         Instant expiresAt = now.plus(jwtProperties.expirationMinutes(), ChronoUnit.MINUTES);
 
         return Jwts.builder().subject(user.getEmail()).claim("userId", user.getId()).claim("email", user.getEmail())
-                .issuedAt(Date.from(now)).expiration(Date.from(expiresAt)).signWith(signingKey).compact();
+                .claim("role", user.getRole() != null ? user.getRole().name() : "VOLUNTEER").issuedAt(Date.from(now))
+                .expiration(Date.from(expiresAt)).signWith(signingKey).compact();
     }
 
     public Claims parseToken(String token) {

@@ -10,7 +10,7 @@ public class UserMapper {
 
     public UserResponseDto toDto(User u) {
         return new UserResponseDto(u.getId(), u.getFirstName(), u.getLastName(), u.getEmail(), u.getCreatedAt(),
-                u.getUpdatedAt());
+                u.getUpdatedAt(), u.getRole() != null ? u.getRole().name() : null);
     }
 
     public User toNewEntity(UserRequestDto dto) {

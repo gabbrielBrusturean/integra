@@ -1,6 +1,8 @@
 package integra.backend.user.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,7 +13,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user_accounts")
 public class User {
 
     @Id
@@ -30,14 +32,17 @@ public class User {
     @Column(name = "password_hash", length = 255)
     private String passwordHash;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role = Role.VOLUNTEER;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public User() {
-    }
+    public User() {}
 
     public User(Long id, String firstName, String lastName, String email, LocalDateTime createdAt) {
         this.id = id;
@@ -45,6 +50,14 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.createdAt = createdAt;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @PrePersist
