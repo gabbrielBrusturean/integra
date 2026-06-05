@@ -89,7 +89,8 @@ public class EventService {
     }
 
     public List<Event> getEventsByCurrentCompany() {
-        return eventRepository.findAll();
+        Long currentCompanyId = 1L; 
+        return eventRepository.findAllByOwnerId(currentCompanyId);
     }
 
 }

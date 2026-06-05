@@ -20,7 +20,7 @@ public class EventMapper {
         if (dto == null)
             return null;
         return new Event(null, dto.title(), dto.description(), dto.location(), dto.startAt(),
-                dto.endAt(), null, dto.maxParticipants());
+                dto.endAt(), null, dto.maxParticipants(), null);
     }
 
     public MyEventResponseDto toMyEventsDto(Event e) {
