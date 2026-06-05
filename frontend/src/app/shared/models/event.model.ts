@@ -31,3 +31,13 @@ export interface CreateEventResponse {
   createdAt: string;
   maxParticipants: number | null;
 }
+
+export interface CompanyEvent {
+  id: number;
+  title: string;
+  location: string;
+  startAt: string;
+  endAt: string;
+  registeredParticipants: number;
+  maxParticipants: number | null;
+}

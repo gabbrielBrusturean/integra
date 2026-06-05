@@ -88,4 +88,8 @@ public class EventService {
         .toList();
     }
 
+    public List<Event> getEventsByCurrentCompany() {
+        return eventRepository.findAll();
+    }
+
 }

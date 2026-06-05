@@ -1,4 +1,5 @@
 package integra.backend.event;
+
 import integra.backend.event.model.RegisteredVolunteerDto;
 import integra.backend.event.model.EventResponseDto;
 import integra.backend.event.model.EventRequestDto;
@@ -6,6 +7,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -54,5 +56,12 @@ public class EventController {
         
         List<RegisteredVolunteerDto> volunteers = service.getRegisteredVolunteers(eventId, search);
         return ResponseEntity.ok(volunteers);
+    }
+
+    @GetMapping("/my-events")
+    public List<integra.backend.event.model.MyEventResponseDto> getMyEvents() {
+        return service.getEventsByCurrentCompany().stream()
+                .map(mapper::toMyEventsDto)
+                .collect(Collectors.toList());
     }
 }
