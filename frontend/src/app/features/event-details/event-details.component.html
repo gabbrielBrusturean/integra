@@ -30,7 +30,6 @@
               <p>{{ event.location }}</p>
             </div>
           </div>
-        <div class="logistics-item">
 
           <app-event-map *ngIf="event.latitude !== null && event.longitude !== null"
             [latitude]="event.latitude"
@@ -38,6 +37,8 @@
             [locationName]="event.location"
             [address]="event.address">
           </app-event-map>
+        <div *ngIf="event.latitude !== null && event.longitude !== null" class="map-links margin-bottom: 1-px;">
+            <a [href]="'https://www.google.com/maps/search/?api=1&query=' + event.latitude + ',' + event.longitude" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
         </div>
 
         <div class="logistics-item">
