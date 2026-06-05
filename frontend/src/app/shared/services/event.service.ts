@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-import { Event } from '../models/event.model';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Event, CreateEventRequest, CreateEventResponse } from '../models/event.model';
 import { RegisteredVolunteerDto } from '../models/volunteer.model';
@@ -11,7 +10,7 @@ import { EventColumn } from '../models/event-model';
   providedIn: 'root',
 })
 export class EventService {
-  http = inject(HttpClient)
+  // http = inject(HttpClient)
   
   eventsUrl = 'http://localhost:8080/api/events'
 

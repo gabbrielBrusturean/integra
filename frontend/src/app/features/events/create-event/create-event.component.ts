@@ -37,6 +37,9 @@ export class CreateEventComponent {
         title: ['', [Validators.required]],
         description: ['', [Validators.required]],
         location: ['', [Validators.required]],
+        address: [''],
+        latitude: [null, [Validators.min(-90), Validators.max(90)]],
+        longitude: [null, [Validators.min(-180), Validators.max(180)]],
         startAt: ['', [Validators.required]],
         endAt: ['', [Validators.required]],
         maxParticipants: [null as number | null, [Validators.required, Validators.min(1)]],
@@ -105,6 +108,14 @@ export class CreateEventComponent {
 
     if (controlName === 'maxParticipants' && control.errors['min']) {
       return 'Maximum participants must be greater than 0.';
+    }
+    
+    if (controlName === 'latitude') {
+      return 'Latitude must be between -90 and 90.';
+    }
+
+    if (controlName === 'longitude') {
+      return 'Longitude must be between -180 and 180.';
     }
 
     return 'Invalid value.';

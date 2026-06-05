@@ -24,10 +24,20 @@
       <aside class="logistics-card">
         <div class="logistics-item">
           <span class="icon">📍</span>
-          <div>
-            <strong>Location</strong>
-            <p>{{ event.location }}</p>
+
+            <div>
+              <strong>Location</strong>
+              <p>{{ event.location }}</p>
+            </div>
           </div>
+        <div class="logistics-item">
+
+          <app-event-map *ngIf="event.latitude !== null && event.longitude !== null"
+            [latitude]="event.latitude"
+            [longitude]="event.longitude"
+            [locationName]="event.location"
+            [address]="event.address">
+          </app-event-map>
         </div>
 
         <div class="logistics-item">

@@ -3,6 +3,9 @@ export interface Event {
   title: string;
   description: string;
   location: string;
+  address?: string;
+  latitude?: number;
+  longitude?: number;
   startAt: string;
   endAt: string;
   createdAt: string;
@@ -16,6 +19,9 @@ export interface CreateEventRequest {
   title: string;
   description: string;
   location: string;
+  address?: string;
+  latitude?: number;
+  longitude?: number;
   startAt: string;
   endAt: string;
   maxParticipants: number;
@@ -26,6 +32,9 @@ export interface CreateEventResponse {
   title: string;
   description: string;
   location: string;
+  address?: string;
+  latitude?: number;
+  longitude?: number;
   startAt: string;
   endAt: string;
   createdAt: string;
