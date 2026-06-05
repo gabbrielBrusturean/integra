@@ -14,6 +14,7 @@ import lombok.Data;
 @Data
 @Table(name = "events")
 public class Event {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,12 +22,16 @@ public class Event {
     private String title;
     private String description;
     private String location;
+    private String address;
+    private Double latitude;
+    private Double longitude;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private LocalDateTime createdAt;
     private Integer maxParticipants;
 
-    public Event() {}
+    public Event() {
+    }
 
     public Event(Long id, String title, String description, String location, LocalDateTime startAt,
             LocalDateTime endAt, LocalDateTime createdAt, Integer maxParticipants) {
@@ -34,6 +39,21 @@ public class Event {
         this.title = title;
         this.description = description;
         this.location = location;
+        this.startAt = startAt;
+        this.endAt = endAt;
+        this.createdAt = createdAt;
+        this.maxParticipants = maxParticipants;
+    }
+
+    public Event(Long id, String title, String description, String location, String address, Double latitude, Double longitude, LocalDateTime startAt,
+            LocalDateTime endAt, LocalDateTime createdAt, Integer maxParticipants) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.startAt = startAt;
         this.endAt = endAt;
         this.createdAt = createdAt;
