@@ -44,3 +44,10 @@ h1 {
   margin-bottom: 40px;
 }
 
+.event-summary-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #253c24;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}

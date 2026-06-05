@@ -4,7 +4,7 @@ import { adminMockData } from '../../core/admin/admin.mock-data';
 import { EventService } from '../../shared/services/event.service';
 import { UserModel } from '../../shared/models/user-model';
 import { UserService } from '../../shared/services/user.service';
-import { EventModel } from '../../shared/models/event-model';
+import { Event, EventColumn } from '../../shared/models/event.model';
 
 
 @Component({
@@ -20,7 +20,7 @@ export class Admin {
   users = signal<UserModel[]>([]);
   userColumns = this.userService.USER_COLUMNS;
 
-  events = signal<EventModel[]>([]);
+  events = signal<Event[]>([]);
   eventColumns = this.EventService.EVENT_COLUMNS;
 
   ngOnInit(): void {

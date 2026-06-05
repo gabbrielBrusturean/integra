@@ -26,6 +26,8 @@ export const routes: Routes = [
     path: 'events/:id', component: EventDetailsComponent,
   },
 
+  //{ path: 'events/:id/register', component: RegistrationComponent },
+
   {
     path: '', redirectTo: '/events', pathMatch: 'full',
   },

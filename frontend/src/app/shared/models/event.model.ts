@@ -6,10 +6,18 @@ export interface Event {
   startAt: string;
   endAt: string;
   createdAt: string;
-  maxParticipants: number | null;
-  category?: string;
-  registrationDeadline?: string;
+  maxParticipants: number;
+  currentParticipants: number;
+  category?: string;           
+  registrationDeadline?: string; 
   isFull: boolean;
+}
+
+
+export interface EventColumn {
+  key: keyof Event; 
+  label: string;
+  type: 'number' | 'string' | 'datetime' | 'boolean';
 }
 
 export interface CreateEventRequest {

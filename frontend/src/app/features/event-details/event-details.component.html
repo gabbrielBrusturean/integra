@@ -2,7 +2,6 @@
   <header class="hero-section">
     <div class="container">
       <nav><a routerLink="/events" class="back-link">← Back to all events</a></nav>
-      <span class="category-tag" *ngIf="event.category">{{ event.category }}</span>
       <h1>{{ event.title }}</h1>
     </div>
   </header>
@@ -16,7 +15,10 @@
         <div class="rules-box">
           <h4>Participation Rules</h4>
           <ul>
-            <li>Registration is open until {{ event.registrationDeadline | date: 'medium' }}.</li>
+            <li>
+              Registration is open until
+              {{ getRegistrationDeadline(event.startAt) | date: 'shortDate' }}.
+            </li>
           </ul>
         </div>
       </section>
@@ -50,8 +52,16 @@
           </div>
           <div class="stat-box">
             <span class="stat-label">Status</span>
-            <span class="status-indicator" [class.full]="event.isFull">
-              {{ event.isFull ? 'Waitlist Only (Full)' : 'Currently Open' }}
+
+            <span
+              class="status-indicator"
+              [class.full]="volunteers.length >= event.maxParticipants"
+            >
+              {{
+                volunteers.length >= event.maxParticipants
+                  ? 'Waitlist Only (Full)'
+                  : 'Currently Open'
+              }}
             </span>
           </div>
         </section>
@@ -59,11 +69,12 @@
         <section class="volunteers-section">
           <div class="section-header">
             <h3>Registered Volunteers ({{ volunteers.length }})</h3>
-            <input 
-              type="text" 
-              class="search-input" 
-              placeholder="Search by name or email..." 
-              (input)="onSearch($event)">
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search by name or email..."
+              (input)="onSearch($event)"
+            />
           </div>
 
           <div class="table-container">
@@ -90,8 +101,16 @@
         </section>
 
         <footer class="registration-footer">
-          <button class="primary-btn" [disabled]="event.isFull" (click)="onRegister()">
-            {{ event.isFull ? 'Event Full' : 'Register for Event' }}
+          <button
+            (click)="onRegister()"
+            [disabled]="
+              volunteers.length >= event.maxParticipants || isAlreadyRegistered || isClosed()
+            "
+            class="primary-btn view-btn"
+            [style.opacity]="volunteers.length >= event.maxParticipants ? '0.5' : '1'"
+            [style.cursor]="volunteers.length >= event.maxParticipants ? 'not-allowed' : 'pointer'"
+          >
+            {{ volunteers.length >= event.maxParticipants ? 'Event Full' : 'Register For Event' }}
           </button>
         </footer>
       </aside>
