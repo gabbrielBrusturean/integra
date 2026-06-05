@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { Event, CreateEventRequest, CreateEventResponse } from '../models/event.model';
+import { Event, CreateEventRequest, CreateEventResponse, CompanyEvent } from '../models/event.model';
 import { RegisteredVolunteerDto } from '../models/volunteer.model';
 import { HttpClient } from '@angular/common/http';
 import { HttpParams } from '@angular/common/http';
@@ -81,5 +81,13 @@ export class EventService {
     }
 
     return this.http.get<RegisteredVolunteerDto[]>(url, { params });
+  }
+
+  getMyEvents(): Observable<CompanyEvent[]> {
+    return this.http.get<CompanyEvent[]>(`${this.baseUrl}/my-events`).pipe(
+      catchError((err) => {
+        return throwError(() => err);
+      })
+    );
   }
 }

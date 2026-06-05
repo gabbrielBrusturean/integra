@@ -27,6 +27,11 @@ export const routes: Routes = [
   },
 
   {
+    path: 'manage-my-events',
+    loadComponent: () => import('./features/manage-events/manage-events.component').then(m => m.ManageEventsComponent)
+  },
+
+  {
     path: '', redirectTo: '/events', pathMatch: 'full',
   },
 

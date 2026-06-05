@@ -25,11 +25,12 @@ public class Event {
     private LocalDateTime endAt;
     private LocalDateTime createdAt;
     private Integer maxParticipants;
+    private Long ownerId;
 
     public Event() {}
 
     public Event(Long id, String title, String description, String location, LocalDateTime startAt,
-            LocalDateTime endAt, LocalDateTime createdAt, Integer maxParticipants) {
+            LocalDateTime endAt, LocalDateTime createdAt, Integer maxParticipants, Long ownerId) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -38,6 +39,7 @@ public class Event {
         this.endAt = endAt;
         this.createdAt = createdAt;
         this.maxParticipants = maxParticipants;
+        this.ownerId = ownerId;
     }
 
     @PrePersist

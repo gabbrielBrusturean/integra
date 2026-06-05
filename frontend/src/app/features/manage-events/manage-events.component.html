@@ -1,0 +1,46 @@
+<div class="container">
+  <h2>Manage My Events</h2>
+
+  <div *ngIf="events.length === 0" class="empty-state">
+    <p>You have not created any events yet.</p>
+    <button routerLink="/events/create" class="btn-create">Create event</button>
+  </div>
+
+  <table *ngIf="events.length > 0" class="events-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Location</th>
+        <th>Date</th>
+        <th>Participants</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let event of events">
+        <td><strong>{{ event.title }}</strong></td>
+        <td>{{ event.location }}</td>
+        <td>{{ event.startAt | date:'dd MMM yyyy HH:mm' }}</td>
+        <td>
+          <ng-container *ngIf="event.maxParticipants; else noMax">
+            {{ event.registeredParticipants }} / {{ event.maxParticipants }}
+          </ng-container>
+          <ng-template #noMax>
+            {{ event.registeredParticipants }} registered
+          </ng-template>
+        </td>
+        <td>
+          <span class="status-badge" [ngClass]="getEventStatus(event).toLowerCase()">
+            {{ getEventStatus(event) }}
+          </span>
+        </td>
+        <td>
+          <button [routerLink]="['/events', event.id, 'edit']" class="btn-edit">
+            Edit
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
