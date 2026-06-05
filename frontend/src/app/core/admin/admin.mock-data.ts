@@ -1,4 +1,4 @@
-import { EventColumn, EventModel } from "../../shared/models/event-model";
+import { EventColumn, Event } from "../../shared/models/event.model";
 import { UserColumn, UserModel } from "../../shared/models/user-model";
 
 
@@ -17,7 +17,7 @@ export const adminMockData = {
         { key:'isFull',label:'Is Full', type:'boolean' }
     ],
 
-    EVENTS_DATA: <EventModel[]> [
+    EVENTS_DATA: <Event[]> [
         {
             id: 1,
             title: 'Angular Workshop',

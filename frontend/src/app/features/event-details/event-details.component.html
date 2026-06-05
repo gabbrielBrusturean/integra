@@ -1,14 +1,22 @@
 <div class="full-page-detail" *ngIf="event">
   <header class="hero-section">
-    <div class="container">
-      <nav><a routerLink="/events" class="back-link">← Back to all events</a></nav>
-      <span class="category-tag" *ngIf="event.category">{{ event.category }}</span>
-      <h1>{{ event.title }}</h1>
+    <div
+      class="container"
+      style="display: flex; justify-content: space-between; align-items: center"
+    >
+      <div>
+        <nav><a routerLink="/events" class="back-link">← Back to all events</a></nav>
+        <h1>{{ event.title }}</h1>
+      </div>
+
+      <button *ngIf="!isEditMode" (click)="toggleEditMode()" class="secondary-btn">
+        Edit Event
+      </button>
     </div>
   </header>
 
   <main class="container content-body">
-    <div class="details-grid">
+    <div class="details-grid" *ngIf="!isEditMode">
       <section class="main-info">
         <h3>About this event</h3>
         <p class="description">{{ event.description }}</p>
@@ -16,7 +24,10 @@
         <div class="rules-box">
           <h4>Participation Rules</h4>
           <ul>
-            <li>Registration is open until {{ event.registrationDeadline | date: 'medium' }}.</li>
+            <li>
+              Registration is open until
+              {{ getRegistrationDeadline(event.startAt) | date: 'shortDate' }}.
+            </li>
           </ul>
         </div>
       </section>
@@ -50,8 +61,16 @@
           </div>
           <div class="stat-box">
             <span class="stat-label">Status</span>
-            <span class="status-indicator" [class.full]="event.isFull">
-              {{ event.isFull ? 'Waitlist Only (Full)' : 'Currently Open' }}
+
+            <span
+              class="status-indicator"
+              [class.full]="volunteers.length >= event.maxParticipants"
+            >
+              {{
+                volunteers.length >= event.maxParticipants
+                  ? 'Waitlist Only (Full)'
+                  : 'Currently Open'
+              }}
             </span>
           </div>
         </section>
@@ -59,11 +78,12 @@
         <section class="volunteers-section">
           <div class="section-header">
             <h3>Registered Volunteers ({{ volunteers.length }})</h3>
-            <input 
-              type="text" 
-              class="search-input" 
-              placeholder="Search by name or email..." 
-              (input)="onSearch($event)">
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search by name or email..."
+              (input)="onSearch($event)"
+            />
           </div>
 
           <div class="table-container">
@@ -90,11 +110,163 @@
         </section>
 
         <footer class="registration-footer">
-          <button class="primary-btn" [disabled]="event.isFull" (click)="onRegister()">
-            {{ event.isFull ? 'Event Full' : 'Register for Event' }}
+          <button
+            (click)="onRegister()"
+            [disabled]="
+              volunteers.length >= event.maxParticipants || isAlreadyRegistered || isClosed()
+            "
+            class="primary-btn view-btn"
+            [style.opacity]="volunteers.length >= event.maxParticipants ? '0.5' : '1'"
+            [style.cursor]="volunteers.length >= event.maxParticipants ? 'not-allowed' : 'pointer'"
+          >
+            {{ volunteers.length >= event.maxParticipants ? 'Event Full' : 'Register For Event' }}
           </button>
         </footer>
       </aside>
+    </div>
+
+    <div
+      *ngIf="isEditMode"
+      class="edit-form-container"
+      style="
+        max-width: 600px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      "
+    >
+      <h2>Edit Event Details</h2>
+
+      <div
+        *ngIf="errorMessage"
+        class="error-banner"
+        style="
+          color: #721c24;
+          background-color: #f8d7da;
+          padding: 10px;
+          border-radius: 4px;
+          margin-bottom: 20px;
+        "
+      >
+        {{ errorMessage }}
+      </div>
+
+      <form [formGroup]="editForm" (ngSubmit)="saveEvent()">
+        <div class="form-group" style="margin-bottom: 20px">
+          <label
+            class="required-field"
+            style="display: block; margin-bottom: 5px; font-weight: bold"
+            >Event Title</label
+          >
+          <input
+            type="text"
+            formControlName="title"
+            style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px"
+          />
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px">
+          <label
+            class="required-field"
+            style="display: block; margin-bottom: 5px; font-weight: bold"
+            >Description</label
+          >
+          <textarea
+            formControlName="description"
+            style="
+              width: 100%;
+              padding: 10px;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+              min-height: 120px;
+            "
+          ></textarea>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px">
+          <label
+            class="required-field"
+            style="display: block; margin-bottom: 5px; font-weight: bold"
+            >Location</label
+          >
+          <input
+            type="text"
+            formControlName="location"
+            style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px"
+          />
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px">
+          <div class="form-group">
+            <label
+              class="required-field"
+              style="display: block; margin-bottom: 5px; font-weight: bold"
+              >Start Date/Time</label
+            >
+            <input
+              type="datetime-local"
+              formControlName="startAt"
+              style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px"
+            />
+          </div>
+
+          <div class="form-group">
+            <label
+              class="required-field"
+              style="display: block; margin-bottom: 5px; font-weight: bold"
+              >End Date/Time</label
+            >
+            <input
+              type="datetime-local"
+              formControlName="endAt"
+              style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px"
+            />
+            <small
+              *ngIf="editForm.hasError('dateMismatch')"
+              style="color: red; display: block; margin-top: 5px"
+            >
+              End date must be after start.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 30px">
+          <label
+            class="required-field"
+            style="display: block; margin-bottom: 5px; font-weight: bold"
+            >Maximum Participants</label
+          >
+          <input
+            type="number"
+            formControlName="maxParticipants"
+            min="1"
+            style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px"
+          />
+        </div>
+
+        <div class="form-actions" style="display: flex; justify-content: flex-end; gap: 15px">
+          <button
+            type="button"
+            class="secondary-btn"
+            (click)="cancelEdit()"
+            [disabled]="isSaving"
+            style="padding: 10px 20px"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="primary-btn"
+            [disabled]="editForm.invalid || isSaving"
+            style="padding: 10px 20px"
+          >
+            {{ isSaving ? 'Saving...' : 'Save Changes' }}
+          </button>
+        </div>
+      </form>
     </div>
   </main>
 </div>

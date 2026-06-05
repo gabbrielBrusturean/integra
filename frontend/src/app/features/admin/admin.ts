@@ -4,8 +4,7 @@ import { adminMockData } from '../../core/admin/admin.mock-data';
 import { EventService } from '../../shared/services/event.service';
 import { UserModel } from '../../shared/models/user-model';
 import { UserService } from '../../shared/services/user.service';
-import { EventModel } from '../../shared/models/event-model';
-
+import { Event, EventColumn } from '../../shared/models/event.model';
 
 @Component({
   selector: 'app-admin',
@@ -20,7 +19,7 @@ export class Admin {
   users = signal<UserModel[]>([]);
   userColumns = this.userService.USER_COLUMNS;
 
-  events = signal<EventModel[]>([]);
+  events = signal<Event[]>([]);
   eventColumns = this.EventService.EVENT_COLUMNS;
 
   ngOnInit(): void {
@@ -28,26 +27,27 @@ export class Admin {
     this.getEvents();
   }
 
-  getUsers(){
+  getUsers() {
     this.userService.getUsers().subscribe({
-      next:(res: any)=>{
-        this.users.set(res)
-        console.log('aaaaa')
+      next: (res: any) => {
+        this.users.set(res);
+        console.log('aaaaa');
       },
-      error:(err: any)=>{
-        console.log(err.message)
-      }
-    })
+      error: (err: any) => {
+        console.log(err.message);
+      },
+    });
   }
 
-  getEvents(){
+  getEvents() {
     this.EventService.getEvents().subscribe({
-      next:(res: any)=>{
-        this.events.set(res)
+      next: (res: any) => {
+        console.log('Backend response:', res);
+        this.events.set(res);
       },
-      error:(err: any)=>{
-        console.log(err.message)
-      }
-    })
+      error: (err: any) => {
+        console.log(err.message);
+      },
+    });
   }
 }

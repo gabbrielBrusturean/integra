@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { Observable } from 'rxjs'; 
 import { Event } from '../../shared/models/event.model';
 import { EventService } from '../../shared/services/event.service';
 
@@ -11,6 +12,7 @@ import { EventService } from '../../shared/services/event.service';
   templateUrl: './event-list.component.html',
   styleUrls: ['./event-list.component.css'],
 })
+
 export class EventListComponent implements OnInit {
   eventService = inject(EventService);
   events= signal<Event[]>([]);
@@ -30,5 +32,4 @@ export class EventListComponent implements OnInit {
       }
     })
   }
-
-}
+} 

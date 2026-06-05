@@ -1,6 +1,7 @@
 package integra.backend.event.model;
 
 import java.time.LocalDateTime;
+import org.hibernate.annotations.Formula;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,4 +47,15 @@ public class Event {
             createdAt = LocalDateTime.now();
         }
     }
+
+    @Formula("(SELECT COUNT(r.id) FROM registrations r WHERE r.event_id = id AND r.status IN ('APPROVED', 'PENDING'))")
+    private int currentParticipants;
+
+    public int getCurrentParticipants() {
+        return currentParticipants;
+    }
+    public void setCurrentParticipants(int currentParticipants) {
+        this.currentParticipants = currentParticipants;
+    }
+
 }

@@ -3,14 +3,20 @@ import integra.backend.event.model.RegisteredVolunteerDto;
 import integra.backend.event.model.Event;
 import integra.backend.exception.ResourceNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
+import integra.backend.registration.RegistrationRepository; 
+import integra.backend.registration.model.Registration;
 
 @Service
 public class EventService {
     private final EventRepository eventRepository;
+    private final RegistrationRepository registrationRepository;
 
-    public EventService(EventRepository eventRepository) {
+    public EventService(EventRepository eventRepository, RegistrationRepository registrationRepository) {
         this.eventRepository = eventRepository;
+        this.registrationRepository = registrationRepository;
     }
 
     public List<Event> getAll() {
@@ -42,37 +48,25 @@ public class EventService {
         return eventRepository.save(existing);
     }
 
-    
+
     public List<RegisteredVolunteerDto> getRegisteredVolunteers(Long eventId, String search) {
-        List<RegisteredVolunteerDto> mockData = List.of(
-            new RegisteredVolunteerDto(1L, "Ion", "Popescu", "ion.p@email.com"),
-            new RegisteredVolunteerDto(2L, "Maria", "Ionescu", "maria.i@email.com"),
-            new RegisteredVolunteerDto(3L, "Andrei", "Vasile", "andrei.v@test.ro"),
-            new RegisteredVolunteerDto(4L, "Elena", "Dumitru", "elena.d@email.com"),
-            new RegisteredVolunteerDto(5L, "Ioana", "Radu", "ioana.r@example.com"),
-            new RegisteredVolunteerDto(6L, "Cristian", "Stan", "c.stan@tech.ro"),
-            new RegisteredVolunteerDto(7L, "Simona", "Pop", "simona.p@email.com"),
-            new RegisteredVolunteerDto(8L, "Mihai", "Popa", "mihai.p@test.com"),
-            new RegisteredVolunteerDto(9L, "Ana", "Blandiana", "ana.b@lit.ro"),
-            new RegisteredVolunteerDto(10L, "George", "Enescu", "george.e@music.ro"),
-            new RegisteredVolunteerDto(11L, "Victor", "Breb", "victor.b@tech.com"),
-            new RegisteredVolunteerDto(12L, "Laura", "Codruța", "laura.c@justice.ro"),
-            new RegisteredVolunteerDto(14L, "Victoria", "Georgescu", "victoria.geo@gmail.ro"),
-            new RegisteredVolunteerDto(16L, "Marius", "Avram", "marius.avram@gmail.com")
+        List<Registration> registrations = registrationRepository.findByEventId(eventId);
 
-
-        );
-
-        List<RegisteredVolunteerDto> eventSpecificList = mockData.stream()
-        .filter(v -> (eventId % 2 == 0) ? (v.id() % 2 == 0) : (v.id() % 2 != 0))
-        .toList();
+        List<RegisteredVolunteerDto> volunteers = registrations.stream()
+            .map(reg -> new RegisteredVolunteerDto(
+                reg.getUser().getId(),
+                reg.getUser().getFirstName(),
+                reg.getUser().getLastName(),
+                reg.getUser().getEmail()
+            ))
+            .collect(Collectors.toList());
 
         if (search == null || search.trim().length() < 3) {
-            return eventSpecificList;
+            return volunteers;
         }
 
         String query = search.trim().replaceAll("\\s+", " ").toLowerCase();
-        return eventSpecificList.stream()
+        return volunteers.stream()
             .filter(v -> {
             String firstName = v.firstName().toLowerCase();
             String lastName = v.lastName().toLowerCase();

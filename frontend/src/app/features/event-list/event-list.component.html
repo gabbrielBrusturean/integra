@@ -1,4 +1,3 @@
-
 <div class="list-container">
   <header class="list-header">
     <h1>Upcoming Volunteering Events</h1>
@@ -10,17 +9,24 @@
   <div class="grid">
     @for (event of events(); track event.id) {
       <div class="event-summary-card">
-        <span class="category-badge" *ngIf="event.category">{{ event.category }}</span>
+        @if (event.category) {
+          <span class="category-badge">{{ event.category }}</span>
+        }
+
         <h3>{{ event.title }}</h3>
+        <p>{{ event.description }}</p>
 
         <div class="quick-info">
           <p>📍 {{ event.location }}</p>
           <p>📅 {{ event.startAt | date: 'shortDate' }}</p>
         </div>
 
-        <a [routerLink]="['/events', event.id]" class="view-btn"> See Details </a>
+        <a [routerLink]="['/events', event.id]" class="view-btn">See Details</a>
+      </div>
+    } @empty {
+      <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666">
+        <p>No upcoming events found. Check back later!</p>
       </div>
     }
   </div>
 </div>
-
