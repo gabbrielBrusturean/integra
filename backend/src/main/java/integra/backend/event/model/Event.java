@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -25,11 +26,13 @@ public class Event {
     private LocalDateTime endAt;
     private LocalDateTime createdAt;
     private Integer maxParticipants;
+    @Column(nullable = false)
+    private Boolean reminderSent = false;
 
     public Event() {}
 
-    public Event(Long id, String title, String description, String location, LocalDateTime startAt,
-            LocalDateTime endAt, LocalDateTime createdAt, Integer maxParticipants) {
+    public Event(Long id, String title, String description, String location, LocalDateTime startAt, LocalDateTime endAt,
+            LocalDateTime createdAt, Integer maxParticipants) {
         this.id = id;
         this.title = title;
         this.description = description;
