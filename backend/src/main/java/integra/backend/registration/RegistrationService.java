@@ -3,6 +3,8 @@ package integra.backend.registration;
 import integra.backend.registration.model.Registration;
 import integra.backend.user.UserRepository;
 import integra.backend.event.EventRepository;
+import integra.backend.exception.DuplicateResourceException;
+import integra.backend.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -41,8 +43,17 @@ public class RegistrationService {
 
     //POST
     public Registration create(Long userId, Long eventId, Registration registration) {
-        registration.setUser(userRepository.findById(userId).orElseThrow());
-        registration.setEvent(eventRepository.findById(eventId).orElseThrow());
+        if (userId == null || eventId == null) {
+            throw new IllegalArgumentException("User ID and Event ID must not be null");
+        }
+
+        if (repository.existsByEventIdAndUserId(eventId, userId)) {
+            throw new DuplicateResourceException("Volunteer is already registered for this event");
+        }
+        registration.setUser(userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " was not found")));
+        registration.setEvent(eventRepository.findById(eventId)
+                .orElseThrow(() -> new ResourceNotFoundException("Event with id " + eventId + " was not found")));
         return repository.save(registration);
     }
 
