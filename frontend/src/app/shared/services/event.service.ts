@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-import { Event } from '../models/event.model';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Event, CreateEventRequest, CreateEventResponse } from '../models/event.model';
 import { RegisteredVolunteerDto } from '../models/volunteer.model';
@@ -11,9 +10,8 @@ import { EventColumn } from '../models/event-model';
   providedIn: 'root',
 })
 export class EventService {
-  http = inject(HttpClient)
-  
-  eventsUrl = 'http://localhost:8080/api/events'
+  private readonly http = inject(HttpClient);
+  private readonly eventsUrl = '/api/events';
 
   EVENT_COLUMNS =  <EventColumn[]>[
     { key:'id',label:'ID', type:'number' },
@@ -29,9 +27,6 @@ export class EventService {
     { key:'isFull',label:'Is Full', type:'boolean' }
   ];
 
-  private baseUrl = '/api/events';
-  constructor(private http: HttpClient) {}
-  
   private mockEvents: Event[] = [
     {
       id: 1,
@@ -70,7 +65,7 @@ export class EventService {
   }
 
   create(payload: CreateEventRequest): Observable<CreateEventResponse> {
-    return this.http.post<CreateEventResponse>(this.baseUrl, payload).pipe(
+    return this.http.post<CreateEventResponse>(this.eventsUrl, payload).pipe(
       catchError((err) => {
         return throwError(() => err);
       })
@@ -78,7 +73,7 @@ export class EventService {
   }
   
   getVolunteers(eventId: number, search: string = ''): Observable<RegisteredVolunteerDto[]> {
-    const url = `http://localhost:8080/api/events/${eventId}/volunteers`;
+    const url = `${this.eventsUrl}/${eventId}/volunteers`;
 
     let params = new HttpParams();
     if (search) {

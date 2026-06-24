@@ -6,8 +6,8 @@ import { UserColumn, UserModel } from '../models/user-model';
   providedIn: 'root',
 })
 export class UserService {
-  http = inject(HttpClient)
-  userUrl = 'http://localhost:8080/api/users'
+  private readonly http = inject(HttpClient);
+  private readonly userUrl = '/api/users';
 
   USER_COLUMNS = <UserColumn[]>[
     { key:'id',label:'ID', type:'number' },
