@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: backend
   datasource:
     url: jdbc:postgresql://aws-1-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require
     username: postgres.ngtwukpkejtvwvajuwsq

@@ -41,7 +41,6 @@ public class RegistrationService {
         return repository.findByEventIdAndUserId(eventId, userId); 
     }
 
-    //POST
     public Registration create(Long userId, Long eventId, Registration registration) {
         if (userId == null || eventId == null) {
             throw new IllegalArgumentException("User ID and Event ID must not be null");
@@ -57,7 +56,6 @@ public class RegistrationService {
         return repository.save(registration);
     }
 
-    //PUT
     public Optional<Registration> updateStatus(Long id, String newStatus) {
         return repository.findById(id).map(registration -> {
             registration.setStatus(newStatus);
@@ -65,7 +63,6 @@ public class RegistrationService {
         });
     }
 
-    //DEL
     public boolean delete(Long id) {
         if (!repository.existsById(id)) return false;
         repository.deleteById(id);

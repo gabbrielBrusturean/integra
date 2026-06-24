@@ -1,0 +1,29 @@
+<div class="container">
+  <h2>My Registered Events</h2>
+
+  @if (isLoading) {
+    <div>
+      <p>Waiting for your Registrations...</p>
+    </div>
+  }
+
+  @if (!isLoading && registrations.length === 0) {
+    <div>
+      <p>You are not registered to any events yet.</p>
+    </div>
+  }
+
+  @if (!isLoading && registrations.length > 0) {
+    <div>
+      @for (reg of registrations; track reg.eventId) {
+        <div style="border: 1px solid #ccc; margin-bottom: 15px; padding: 15px;">
+          <h3>{{ reg.title }}</h3>
+          <p>Location: {{ reg.location }}</p>
+          <p>Start Time: {{ reg.startAt | date:'medium' }}</p>
+          <p>Status: {{ reg.status }}</p>
+          <a [routerLink]="['/events', reg.eventId]">View Details</a>
+        </div>
+      }
+    </div>
+  }
+</div>

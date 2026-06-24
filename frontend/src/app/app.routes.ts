@@ -1,4 +1,6 @@
-import { Routes } from '@angular/router';
+import {Routes} from '@angular/router';
+import {Home} from './features/home/home';
+import { MyRegistrationsComponent } from './features/my-registrations/my-registrations';
 import { EventListComponent } from './features/event-list/event-list.component';
 import { EventDetailsComponent } from './features/event-details/event-details.component';
 import {Home} from './features/home/home';
@@ -8,14 +10,16 @@ import { CreateEventComponent } from './features/events/create-event/create-even
 export const routes: Routes = [
   {
     path: '',
+    redirectTo: 'events',
+    pathMatch: 'full'
+  },
+  {
+    path: 'events',
     component: Home,
   },
   {
     path: 'admin',
     component: Admin,
-  },
-  {
-    path: 'events', component: EventListComponent,
   },
 
   {
@@ -27,10 +31,11 @@ export const routes: Routes = [
   },
 
   {
-    path: '', redirectTo: '/events', pathMatch: 'full',
+    path: 'my-registrations',
+    component: MyRegistrationsComponent,
   },
-
   {
-    path: '**', redirectTo: '/events'
-  },
+    path: '**',
+    redirectTo: 'events'
+  }
 ];
