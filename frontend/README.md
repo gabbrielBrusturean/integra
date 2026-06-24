@@ -36,6 +36,18 @@ ng build
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
+For this project, the static deploy output is:
+
+```bash
+dist/frontend/browser
+```
+
+## Vercel
+
+When importing this repository into Vercel, set the project Root Directory to `frontend`. The checked-in `vercel.json` uses Angular, runs `npm ci` and `npm run build`, serves `dist/frontend/browser`, and falls back to `index.html` for Angular Router routes.
+
+The frontend calls the API through `/api`. Locally this is handled by `proxy.conf.json`; in production, route `/api` to the deployed Spring Boot backend or update the services to use the deployed backend URL.
+
 ## Running unit tests
 
 To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:

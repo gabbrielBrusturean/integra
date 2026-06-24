@@ -8,7 +8,7 @@
   </header>
 
   <div class="grid">
-    @for (event of events; track event.id) {
+    @for (event of events(); track event.id) {
       <div class="event-summary-card">
         <span class="category-badge" *ngIf="event.category">{{ event.category }}</span>
         <h3>{{ event.title }}</h3>

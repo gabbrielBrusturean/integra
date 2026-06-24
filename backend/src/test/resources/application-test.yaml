@@ -9,3 +9,8 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
+
+app:
+  jwt:
+    secret: test-jwt-secret-test-jwt-secret-test-jwt-secret-123456
+    expirationMinutes: 60

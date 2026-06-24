@@ -1,16 +1,32 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Event, CreateEventRequest, CreateEventResponse } from '../models/event.model';
 import { RegisteredVolunteerDto } from '../models/volunteer.model';
 import { HttpClient } from '@angular/common/http';
 import { HttpParams } from '@angular/common/http';
+import { EventColumn } from '../models/event-model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventService {
-  private baseUrl = '/api/events';
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
+  private readonly eventsUrl = '/api/events';
+
+  EVENT_COLUMNS =  <EventColumn[]>[
+    { key:'id',label:'ID', type:'number' },
+    { key:'title',label:'Title', type:'string' },
+    { key:'description',label:'Description', type:'string' },
+    { key:'location',label:'Location', type:'string' },
+    { key:'startAt',label:'Start At', type:'datetime' },
+    { key:'endAt',label:'End At', type:'datetime' },
+    { key:'createdAt',label:'Created At', type:'datetime' },
+    { key:'maxParticipants',label:'Max Participants', type:'number' },
+    { key:'category',label:'Category', type:'string' },
+    { key:'registrationDeadline',label:'Registration Deadline', type:'datetime' },
+    { key:'isFull',label:'Is Full', type:'boolean' }
+  ];
+
   private mockEvents: Event[] = [
     {
       id: 1,
@@ -40,25 +56,24 @@ export class EventService {
     },
   ];
 
-  getEvents(): Event[] {
-    return this.mockEvents;
+  getEvents(){
+    return this.http.get(this.eventsUrl);
   }
 
-  getEventById(id: number): Event | undefined {
-    return this.mockEvents.find((event) => event.id === id);
+  getEventById(id: number) {
+    return this.http.get(this.eventsUrl +'/' +id)
   }
 
   create(payload: CreateEventRequest): Observable<CreateEventResponse> {
-    return this.http.post<CreateEventResponse>(this.baseUrl, payload).pipe(
+    return this.http.post<CreateEventResponse>(this.eventsUrl, payload).pipe(
       catchError((err) => {
         return throwError(() => err);
       })
     );
   }
   
-
   getVolunteers(eventId: number, search: string = ''): Observable<RegisteredVolunteerDto[]> {
-    const url = `http://localhost:8080/api/events/${eventId}/volunteers`;
+    const url = `${this.eventsUrl}/${eventId}/volunteers`;
 
     let params = new HttpParams();
     if (search) {

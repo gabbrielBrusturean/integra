@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
 
     public UserResponseDto toDto(User u) {
-        return new UserResponseDto(u.getId(), u.getFirstName(), u.getLastName(), u.getEmail(), u.getCreatedAt(), u.getUpdatedAt());
+        return new UserResponseDto(u.getId(), u.getFirstName(), u.getLastName(), u.getEmail(), u.getCreatedAt(),
+                u.getUpdatedAt());
     }
 
     public User toNewEntity(UserRequestDto dto) {
