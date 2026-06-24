@@ -1,4 +1,5 @@
 package integra.backend.event;
+
 import integra.backend.event.model.RegisteredVolunteerDto;
 import integra.backend.event.model.EventResponseDto;
 import integra.backend.event.model.EventRequestDto;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -36,17 +38,20 @@ public class EventController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyRole('CAMPAIGN_MANAGER', 'ADMIN')")
     public EventResponseDto create(@Valid @RequestBody EventRequestDto dto) {
         return mapper.toDto(service.create(mapper.toEntity(dto)));
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('CAMPAIGN_MANAGER', 'ADMIN')")
     public EventResponseDto update(@PathVariable("id") Long id, @Valid @RequestBody EventRequestDto dto) {
         return mapper.toDto(service.update(id, mapper.toEntity(dto)));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(@PathVariable("id") Long id) {
         service.deleteById(id);
     }
@@ -58,13 +63,11 @@ public class EventController {
     }
 
     @GetMapping("/{eventId}/volunteers")
-    public ResponseEntity<List<RegisteredVolunteerDto>> getVolunteers(
-            @PathVariable("eventId") Long eventId,
+    @PreAuthorize("hasAnyRole('CAMPAIGN_MANAGER', 'ADMIN')")
+    public ResponseEntity<List<RegisteredVolunteerDto>> getVolunteers(@PathVariable("eventId") Long eventId,
             @RequestParam(value = "search", required = false) String search) {
-        
-        List<RegisteredVolunteerDto> volunteers = service.getRegisteredVolunteers(eventId, search).stream()
-                .map(u -> new RegisteredVolunteerDto(u.getId(), u.getFirstName(), u.getLastName(), u.getEmail()))
-                .collect(Collectors.toList());
+
+        List<RegisteredVolunteerDto> volunteers = service.getRegisteredVolunteers(eventId, search);
         return ResponseEntity.ok(volunteers);
     }
 }

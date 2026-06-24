@@ -7,6 +7,7 @@ import integra.backend.auth.dto.RegisterResponseDto;
 import integra.backend.security.JwtService;
 import integra.backend.user.UserRepository;
 import integra.backend.user.model.User;
+import integra.backend.user.model.Role;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,12 +46,14 @@ public class AuthService {
         user.setFirstName(request.firstName());
         user.setLastName(request.lastName());
         user.setPasswordHash(passwordEncoder.encode(request.password()));
+        user.setRole(Role.VOLUNTEER);
 
         User savedUser = userRepository.save(user);
 
         String token = jwtService.generateToken(savedUser);
 
-        return new RegisterResponseDto(token, savedUser.getId(), savedUser.getEmail());
+        return new RegisterResponseDto(token, savedUser.getId(), savedUser.getEmail(),
+                savedUser.getRole() != null ? savedUser.getRole().name() : Role.VOLUNTEER.name());
     }
 }
 

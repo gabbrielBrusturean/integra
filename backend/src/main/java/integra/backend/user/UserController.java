@@ -5,6 +5,7 @@ import integra.backend.user.model.UserRequestDto;
 import java.util.List;
 import java.util.stream.Collectors;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/users")
+@PreAuthorize("hasRole('ADMIN')")
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
@@ -36,7 +38,8 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> getById(@PathVariable Long id) {
-        return service.getById(id).map(u -> ResponseEntity.ok(mapper.toDto(u))).orElseGet(() -> ResponseEntity.notFound().build());
+        return service.getById(id).map(u -> ResponseEntity.ok(mapper.toDto(u)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -46,7 +49,8 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDto> update(@PathVariable Long id, @Valid @RequestBody UserRequestDto dto) {
-        return service.update(id, mapper.toEntity(dto)).map(u -> ResponseEntity.ok(mapper.toDto(u))).orElseGet(() -> ResponseEntity.notFound().build());
+        return service.update(id, mapper.toEntity(dto)).map(u -> ResponseEntity.ok(mapper.toDto(u)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")

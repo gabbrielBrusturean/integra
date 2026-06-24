@@ -18,7 +18,8 @@ public record UserResponseDto(
         @Size(max = 255)
         String email,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        LocalDateTime updatedAt,
+        String role
         ) {
 
 }
