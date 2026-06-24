@@ -3,9 +3,9 @@ export interface Event {
   title: string;
   description: string;
   location: string;
-  address?: string;
-  latitude?: number;
-  longitude?: number;
+  address?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
   startAt: string;
   endAt: string;
   createdAt: string;
