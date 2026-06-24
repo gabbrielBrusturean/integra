@@ -90,7 +90,7 @@
 .logistics-item {
   display: flex;
   gap: 15px;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
 }
 
 .icon {

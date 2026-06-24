@@ -6,11 +6,12 @@ import { map } from 'rxjs';
 import { Event } from '../../shared/models/event.model';
 import { RegisteredVolunteerDto } from '../../shared/models/volunteer.model';
 import { EventService } from '../../shared/services/event.service';
+import { EventMapComponent } from '../../shared/components/event-map/event-map.component';
 
 @Component({
   selector: 'app-event-details',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, EventMapComponent],
   templateUrl: './event-details.component.html',
   styleUrls: ['./event-details.component.css'],
 })

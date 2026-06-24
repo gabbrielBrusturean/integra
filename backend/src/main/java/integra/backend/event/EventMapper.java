@@ -11,14 +11,14 @@ public class EventMapper {
     public EventResponseDto toDto(Event e) {
         if (e == null)
             return null;
-        return new EventResponseDto(e.getId(), e.getTitle(), e.getDescription(), e.getLocation(),
+        return new EventResponseDto(e.getId(), e.getTitle(), e.getDescription(), e.getLocation(), e.getAddress(), e.getLatitude(), e.getLongitude(),
                 e.getStartAt(), e.getEndAt(), e.getCreatedAt(), e.getMaxParticipants());
     }
 
     public Event toEntity(EventRequestDto dto) {
         if (dto == null)
             return null;
-        return new Event(null, dto.title(), dto.description(), dto.location(), dto.startAt(),
+        return new Event(null, dto.title(), dto.description(), dto.location(), dto.address(), dto.latitude(), dto.longitude(), dto.startAt(),
                 dto.endAt(), null, dto.maxParticipants());
     }
 }

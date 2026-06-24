@@ -24,10 +24,21 @@
       <aside class="logistics-card">
         <div class="logistics-item">
           <span class="icon">📍</span>
-          <div>
-            <strong>Location</strong>
-            <p>{{ event.location }}</p>
+
+            <div>
+              <strong>Location</strong>
+              <p>{{ event.location }}</p>
+            </div>
           </div>
+
+          <app-event-map *ngIf="event.latitude !== null && event.longitude !== null"
+            [latitude]="event.latitude"
+            [longitude]="event.longitude"
+            [locationName]="event.location"
+            [address]="event.address">
+          </app-event-map>
+        <div *ngIf="event.latitude !== null && event.longitude !== null" class="map-links margin-bottom: 1-px;">
+            <a [href]="'https://www.google.com/maps/search/?api=1&query=' + event.latitude + ',' + event.longitude" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
         </div>
 
         <div class="logistics-item">
